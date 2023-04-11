@@ -6,15 +6,24 @@ from games.state import State
 
 
 class FanoronaState(State):
-    EMPTY_CELL = -1
+    WHITE_CELL = 0
+    BLACK_CELL = 1
 
-    def __init__(self, num_rows: int = 6, num_cols: int = 7):
+    #MOOVES
+    HORIZONTAL_RIGHT = "horizontal_right"
+    HORIZONTAL_LEFT = "horizontal_left"
+    VERTICAL_DOWN = "vertical_right"
+    VERTICAL_UP = "vertical_up"
+    DIAGONAL_DOWN = "diagonal_down"
+    DIAGONAL_UP = "diagonal_up"
+
+    def __init__(self, num_rows: int = 9, num_cols: int = 5):
         super().__init__()
 
         if num_rows < 4:
-            raise Exception("the number of rows must be 4 or over")
+            raise Exception("the number of rows must be 5")
         if num_cols < 4:
-            raise Exception("the number of cols must be 4 or over")
+            raise Exception("the number of cols must be 9")
 
         """
         the dimensions of the board
@@ -25,7 +34,14 @@ class FanoronaState(State):
         """
         the grid
         """
-        self.__grid = [[FanoronaState.EMPTY_CELL for _i in range(self.__num_cols)] for _j in range(self.__num_rows)]
+        #self.__grid = [[FanoronaState.WHITE_CELL for _i in range(self.__num_cols)] for _j in range(self.__num_rows)]
+        self.__grid = [[FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
+                       [FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
+                       [FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,None,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL],
+                       [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
+                       [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
+                       ]
+        self.__last_moove = [] #[player1_index , moove]
 
         """
         counts the number of turns in the current game
@@ -88,20 +104,12 @@ class FanoronaState(State):
         return 2
 
     def validate_action(self, action: FanoronaAction) -> bool:
-        col = action.get_col()
-
-        # valid column
-        if col < 0 or col >= self.__num_cols:
-            return False
-
-        # full column
-        if self.__grid[0][col] != FanoronaState.EMPTY_CELL:
-            return False
-
-        return True
+       return True
 
     def update(self, action: FanoronaAction):
         col = action.get_col()
+        #!TODO : verify the moove
+        self.__last_moove.append([self.__acting_player])
 
         # drop the checker
         for row in range(self.__num_rows - 1, -1, -1):
