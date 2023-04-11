@@ -1,4 +1,4 @@
-class Connect4Action:
+class FanoronaAction:
     """
     a connect 4 action is simple - it only takes the value of the column to play
     """
