@@ -36,9 +36,9 @@ class FanoronaState(State):
         the grid
         """
         #self.__grid = [[FanoronaState.WHITE_CELL for _i in range(self.__num_cols)] for _j in range(self.__num_rows)]
-        self.__grid = [[FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
-                       [FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
-                       [FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.EMPTY_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL],
+        self.__grid = [[FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
+                       [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
+                       [FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.EMPTY_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL],
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        ]
@@ -112,15 +112,11 @@ class FanoronaState(State):
         # x = action.get_x()
         # y = action.get_y()
 
+        moove = self.verify_moove(action)
         if self.__acting_player == 0:
-            self.__last_moove_p0 = action
+            self.__last_moove_p0 = moove
         else:
-            self.__last_moove_p1 = action
-        # # drop the checker
-        # for row in range(self.__num_rows - 1, -1, -1):
-        #     if self.__grid[row][col] < 0:
-        #         self.__grid[row][col] = self.__acting_player
-        #         break
+            self.__last_moove_p1 = moove
 
         # determine if there is a winner
         self.__has_winner = self.__check_winner(self.__acting_player)
@@ -147,7 +143,7 @@ class FanoronaState(State):
 
     def __display_cell(self, row, col):
         print({
-                  0: 'R',
+                  0: 'W',
                   1: 'B',
                   FanoronaState.EMPTY_CELL: ' '
               }[self.__grid[row][col]], end="")
