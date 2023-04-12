@@ -83,6 +83,8 @@ class FanoronaState(State):
         else:
             self.__last_moove_p1 = self.verify_moove(action)
 
+        #TODO: capture pieces
+
         # determine if there is a winner
         self.__has_winner = self.__check_winner(self.__acting_player)
 
