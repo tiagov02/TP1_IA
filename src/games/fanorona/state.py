@@ -59,43 +59,8 @@ class FanoronaState(State):
         """
         self.__has_winner = False
 
+    #!TODO: CHECK WINNER
     def __check_winner(self, player):
-        # check for 4 across
-        for row in range(0, self.__num_rows):
-            for col in range(0, self.__num_cols - 3):
-                if self.__grid[row][col] == player and \
-                        self.__grid[row][col + 1] == player and \
-                        self.__grid[row][col + 2] == player and \
-                        self.__grid[row][col + 3] == player:
-                    return True
-
-        # check for 4 up and down
-        for row in range(0, self.__num_rows - 3):
-            for col in range(0, self.__num_cols):
-                if self.__grid[row][col] == player and \
-                        self.__grid[row + 1][col] == player and \
-                        self.__grid[row + 2][col] == player and \
-                        self.__grid[row + 3][col] == player:
-                    return True
-
-        # check upward diagonal
-        for row in range(3, self.__num_rows):
-            for col in range(0, self.__num_cols - 3):
-                if self.__grid[row][col] == player and \
-                        self.__grid[row - 1][col + 1] == player and \
-                        self.__grid[row - 2][col + 2] == player and \
-                        self.__grid[row - 3][col + 3] == player:
-                    return True
-
-        # check downward diagonal
-        for row in range(0, self.__num_rows - 3):
-            for col in range(0, self.__num_cols - 3):
-                if self.__grid[row][col] == player and \
-                        self.__grid[row + 1][col + 1] == player and \
-                        self.__grid[row + 2][col + 2] == player and \
-                        self.__grid[row + 3][col + 3] == player:
-                    return True
-
         return False
 
     def get_grid(self):
@@ -189,6 +154,8 @@ class FanoronaState(State):
         cloned_state.__turns_count = self.__turns_count
         cloned_state.__acting_player = self.__acting_player
         cloned_state.__has_winner = self.__has_winner
+        cloned_state.__last_moove_p0 = self.__last_moove_p0
+        cloned_state.__last_moove_p1 = self.__last_moove_p1
         for row in range(0, self.__num_rows):
             for col in range(0, self.__num_cols):
                 cloned_state.__grid[row][col] = self.__grid[row][col]
