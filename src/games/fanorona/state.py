@@ -109,14 +109,15 @@ class FanoronaState(State):
        return True
 
     def update(self, action: FanoronaAction):
-        # x = action.get_x()
-        # y = action.get_y()
+        initial_x = action.get_initial_x()
+        initial_y = action.get_initial_y()
+        final_x = action.get_final_x()
+        final_y = action.get_final_y()
 
-        moove = self.verify_moove(action)
         if self.__acting_player == 0:
-            self.__last_moove_p0 = moove
+            self.__last_moove_p0 = self.verify_moove(action)
         else:
-            self.__last_moove_p1 = moove
+            self.__last_moove_p1 = self.verify_moove(action)
 
         # determine if there is a winner
         self.__has_winner = self.__check_winner(self.__acting_player)
