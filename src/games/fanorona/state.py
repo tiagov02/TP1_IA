@@ -8,6 +8,7 @@ from games.state import State
 class FanoronaState(State):
     WHITE_CELL = 0
     BLACK_CELL = 1
+    EMPTY_CELL = -1
 
     #MOOVES
     HORIZONTAL_RIGHT = "horizontal_right"
@@ -37,11 +38,12 @@ class FanoronaState(State):
         #self.__grid = [[FanoronaState.WHITE_CELL for _i in range(self.__num_cols)] for _j in range(self.__num_rows)]
         self.__grid = [[FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
-                       [FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,None,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL],
+                       [FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.EMPTY_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL],
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        ]
-        self.__last_moove = [] #[player1_index , moove]
+        self.__last_moove_p0 = None
+        self.__last_moove_p1 = None
 
         """
         counts the number of turns in the current game
@@ -107,15 +109,18 @@ class FanoronaState(State):
        return True
 
     def update(self, action: FanoronaAction):
-        col = action.get_col()
-        #!TODO : verify the moove
-        self.__last_moove.append([self.__acting_player])
+        # x = action.get_x()
+        # y = action.get_y()
 
-        # drop the checker
-        for row in range(self.__num_rows - 1, -1, -1):
-            if self.__grid[row][col] < 0:
-                self.__grid[row][col] = self.__acting_player
-                break
+        if self.__acting_player == 0:
+            self.__last_moove_p0 = action
+        else:
+            self.__last_moove_p1 = action
+        # # drop the checker
+        # for row in range(self.__num_rows - 1, -1, -1):
+        #     if self.__grid[row][col] < 0:
+        #         self.__grid[row][col] = self.__acting_player
+        #         break
 
         # determine if there is a winner
         self.__has_winner = self.__check_winner(self.__acting_player)
@@ -124,6 +129,21 @@ class FanoronaState(State):
         self.__acting_player = 1 if self.__acting_player == 0 else 0
 
         self.__turns_count += 1
+
+    def verify_moove(self,action: FanoronaAction) -> str:
+        if action.get_difference_x() == action.get_difference_x() and action.get_difference_y() < 0:
+            return FanoronaState.DIAGONAL_DOWN
+        if action.get_difference_x() == action.get_difference_x() and action.get_difference_y() > 0:
+            return FanoronaState.DIAGONAL_UP
+        if action.get_difference_x() == 0 and action.get_difference_y() < 0:
+            return FanoronaState.HORIZONTAL_RIGHT
+        if action.get_difference_x() == 0 and action.get_difference_y() > 0:
+            return FanoronaState.HORIZONTAL_LEFT
+        if action.get_difference_x() < 0 and action.get_difference_y() == 0:
+            return FanoronaState.VERTICAL_DOWN
+        if action.get_difference_x() > 0 and action.get_difference_y() == 0:
+            return FanoronaState.VERTICAL_UP
+
 
     def __display_cell(self, row, col):
         print({
