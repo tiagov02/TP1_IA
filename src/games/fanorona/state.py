@@ -35,7 +35,6 @@ class FanoronaState(State):
         """
         the grid
         """
-        #self.__grid = [[FanoronaState.WHITE_CELL for _i in range(self.__num_cols)] for _j in range(self.__num_rows)]
         self.__grid = [[FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.EMPTY_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL],
