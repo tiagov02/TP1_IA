@@ -17,6 +17,7 @@ class FanoronaState(State):
     VERTICAL_UP = "vertical_up"
     DIAGONAL_DOWN = "diagonal_down"
     DIAGONAL_UP = "diagonal_up"
+    INVALID_MOOVE = "invalid_moove"
 
     def __init__(self, num_rows: int = 9, num_cols: int = 5):
         super().__init__()
@@ -69,8 +70,16 @@ class FanoronaState(State):
     def get_num_players(self):
         return 2
 
+    #TODO: incomplete function
     def validate_action(self, action: FanoronaAction) -> bool:
-       return True
+        moove = self.verify_moove(action)
+        if moove == FanoronaState.INVALID_MOOVE:
+            return False
+        if self.__acting_player == 0 and moove == self.__last_moove_p0:
+            return False
+        if self.__acting_player == 1 and moove == self.__last_moove_p1:
+            return False
+        return True
 
     def update(self, action: FanoronaAction):
         initial_x = action.get_initial_x()
@@ -106,6 +115,7 @@ class FanoronaState(State):
             return FanoronaState.VERTICAL_DOWN
         if action.get_difference_x() > 0 and action.get_difference_y() == 0:
             return FanoronaState.VERTICAL_UP
+        return FanoronaState.INVALID_MOOVE
 
 
     def __display_cell(self, row, col):
