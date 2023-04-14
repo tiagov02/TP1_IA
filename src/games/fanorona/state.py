@@ -73,6 +73,8 @@ class FanoronaState(State):
     #TODO: incomplete function
     def validate_action(self, action: FanoronaAction) -> bool:
         moove = self.verify_moove(action)
+        if self.__grid[action.get_final_x()][action.get_final_y()] != FanoronaState.EMPTY_CELL :
+            return False
         if moove == FanoronaState.INVALID_MOOVE:
             return False
         if self.__acting_player == 0 and moove == self.__last_moove_p0:
@@ -193,7 +195,7 @@ class FanoronaState(State):
         return list(filter(
             lambda action: self.validate_action(action),
             map(
-                lambda pos: FanoronaAction(pos),
+                lambda initial_x,final_x,initial_y,final_y: FanoronaAction(initial_x,initial_y,final_x,final_y),
                 range(0, self.get_num_cols()))
         ))
 
