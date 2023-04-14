@@ -22,11 +22,6 @@ class FanoronaState(State):
     def __init__(self, num_rows: int = 9, num_cols: int = 5):
         super().__init__()
 
-        if num_rows < 4:
-            raise Exception("the number of rows must be 5")
-        if num_cols < 4:
-            raise Exception("the number of cols must be 9")
-
         """
         the dimensions of the board
         """
@@ -53,7 +48,7 @@ class FanoronaState(State):
         """
         the index of the current acting player
         """
-        self.__acting_player = 0
+        self.__acting_player = FanoronaState.WHITE_CELL
 
         """
         determine if a winner was found already 
@@ -100,7 +95,8 @@ class FanoronaState(State):
         self.__has_winner = self.__check_winner(self.__acting_player)
 
         # switch to next player
-        self.__acting_player = 1 if self.__acting_player == 0 else 0
+        #TODO : verificar se comeu peças
+        self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
 
         self.__turns_count += 1
 
