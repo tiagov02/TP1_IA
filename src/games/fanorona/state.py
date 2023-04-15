@@ -10,14 +10,14 @@ class FanoronaState(State):
     BLACK_CELL = 1
     EMPTY_CELL = -1
 
-    #MOOVES
+    #MOVES
     HORIZONTAL_RIGHT = "horizontal_right"
     HORIZONTAL_LEFT = "horizontal_left"
     VERTICAL_DOWN = "vertical_right"
     VERTICAL_UP = "vertical_up"
     DIAGONAL_DOWN = "diagonal_down"
     DIAGONAL_UP = "diagonal_up"
-    INVALID_MOOVE = "invalid_move"
+    INVALID_MOVE = "invalid_move"
 
     def __init__(self, num_rows: int = 9, num_cols: int = 5):
         super().__init__()
@@ -80,7 +80,7 @@ class FanoronaState(State):
         move = self.verify_move(action)
         if self.__grid[action.get_final_x()][action.get_final_y()] != FanoronaState.EMPTY_CELL :
             return False
-        if move == FanoronaState.INVALID_MOOVE:
+        if move == FanoronaState.INVALID_MOVE:
             return False
         if self.__acting_player == 0 and move == self.__last_move_p0:
             return False
@@ -212,7 +212,7 @@ class FanoronaState(State):
             return FanoronaState.VERTICAL_DOWN
         if action.get_difference_x() > 0 and action.get_difference_y() == 0:
             return FanoronaState.VERTICAL_UP
-        return FanoronaState.INVALID_MOOVE
+        return FanoronaState.INVALID_MOVE
 
 
     def __display_cell(self, row, col):
