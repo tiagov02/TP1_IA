@@ -83,13 +83,71 @@ class FanoronaState(State):
         initial_y = action.get_initial_y()
         final_x = action.get_final_x()
         final_y = action.get_final_y()
+        draw_pieces_down = 0
+        draw_pieces_up = 0
+        moove = self.verify_moove(action)
 
         if self.__acting_player == 0:
-            self.__last_moove_p0 = self.verify_moove(action)
+            self.__last_moove_p0 = moove
         else:
-            self.__last_moove_p1 = self.verify_moove(action)
+            self.__last_moove_p1 = moove
+
+        #mooves the piece
+        self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
+        self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
 
         #TODO: capture pieces
+        # always in a same direction
+        #verifications if the move is diagonal
+        if moove is FanoronaState.DIAGONAL_UP or FanoronaState.DIAGONAL_DOWN :
+            for i in range(final_x + 1,self.get_num_cols()):
+                if self.__grid[i][i] != self.__acting_player:
+                    draw_pieces_down += 1
+                else:
+                    break
+            for i in range(final_x - 1,-1,-1):
+                if self.__grid[i][i] != self.__acting_player:
+                    draw_pieces_up += 1
+                else:
+                    break
+            if draw_pieces_up < draw_pieces_down :
+                for i in range(final_x + 1, self.get_num_cols()):
+                    if self.__grid[i][i] != self.__acting_player:
+                        self.__grid[i][i] = FanoronaState.EMPTY_CELL
+                    else:
+                        break
+            else:
+                for i in range(final_x - 1, -1, -1):
+                    if self.__grid[i][i] != self.__acting_player:
+                        self.__grid[i][i] = FanoronaState.EMPTY_CELL
+                    else:
+                        break
+
+        #verifications if the move is vertical
+        if moove is FanoronaState.VERTICAL_UP or FanoronaState.VERTICAL_DOWN:
+            for i in range(final_x + 1, self.__num_rows):
+                if self.__grid[i][final_y] != self.__acting_player:
+                    draw_pieces_down += 1
+                else:
+                    break
+            for i in range(final_x - 1,-1-1):
+                if self.__grid[i][final_y] != self.__acting_player:
+                    draw_pieces_up += 1
+                else:
+                    break
+            if draw_pieces_up < draw_pieces_down:
+                for i in range(final_x + 1, self.__num_rows):
+                    if self.__grid[i][final_y] != self.__acting_player:
+                        self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
+                    else:
+                        break
+            else:
+                for i in range(final_x - 1, -1 - 1):
+                    if self.__grid[i][final_y] != self.__acting_player:
+                        self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
+                    else:
+                        break
+
 
         # determine if there is a winner
         self.__has_winner = self.__check_winner(self.__acting_player)
