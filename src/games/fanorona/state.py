@@ -88,6 +88,12 @@ class FanoronaState(State):
             return False
         if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
             return False
+        if action.get_initial_x() < 0 or action.get_initial_y() < 0 or action.get_final_x() < 0 or action.get_final_y() < 0:
+            return False
+        if action.get_initial_x() > self.__num_rows or action.get_initial_y() > self.__num_cols \
+            or action.get_final_x() > self.__num_rows or action.get_final_y() > self.__num_cols:
+            return False
+
         return True
 
     def update(self, action: FanoronaAction):
