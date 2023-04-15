@@ -179,9 +179,9 @@ class FanoronaState(State):
         self.__has_winner = self.__check_winner(self.__acting_player)
 
         # switch to next player
-        #TODO : verificar se comeu peças
-        self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
-
+        #verify if the player eat pieces if true does not change the player
+        if draw_pieces_up == 0 and draw_pieces_down == 0 and draw_pieces_left == 0 and draw_pieces_right == 0:
+            self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
         self.__turns_count += 1
 
     def verify_move(self,action: FanoronaAction) -> str:
