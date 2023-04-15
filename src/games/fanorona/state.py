@@ -218,6 +218,7 @@ class FanoronaState(State):
             return FanoronaState.VERTICAL_DOWN
         if action.get_difference_x() > 0 and action.get_difference_y() == 0:
             return FanoronaState.VERTICAL_UP
+        print("")
         return FanoronaState.INVALID_MOVE
 
 
