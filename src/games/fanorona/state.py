@@ -98,7 +98,7 @@ class FanoronaState(State):
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
 
-        #TODO: capture pieces
+        #capture pieces
         # always in a same direction
         #verifications if the move is diagonal
         if move is FanoronaState.DIAGONAL_UP or FanoronaState.DIAGONAL_DOWN :
