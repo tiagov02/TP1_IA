@@ -2,6 +2,8 @@ from games.connect4.players.greedy import GreedyConnect4Player
 from games.connect4.players.minimax import MinimaxConnect4Player
 from games.connect4.players.random import RandomConnect4Player
 from games.connect4.simulator import Connect4Simulator
+from games.fanorona.players.human import HumanFanoronaPlayer
+from games.fanorona.simulator import FanoronaSimulator
 from games.game_simulator import GameSimulator
 from games.poker.players.always_bet import AlwaysBetKuhnPokerPlayer
 from games.poker.players.always_bet_king import AlwaysBetKingKuhnPokerPlayer
@@ -118,4 +120,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_simulation("Fanorona",
+                   FanoronaSimulator(
+                       HumanFanoronaPlayer("1"),
+                       HumanFanoronaPlayer("2")
+                   ),
+                   1000)

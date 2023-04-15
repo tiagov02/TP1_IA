@@ -19,14 +19,14 @@ class FanoronaState(State):
     DIAGONAL_UP = "diagonal_up"
     INVALID_MOVE = "invalid_move"
 
-    def __init__(self, num_rows: int = 5, num_cols: int = 9):
+    def __init__(self):
         super().__init__()
 
         """
         the dimensions of the board
         """
-        self.__num_rows = num_rows
-        self.__num_cols = num_cols
+        self.__num_rows = 5
+        self.__num_cols = 9
 
         """
         the grid
@@ -265,7 +265,7 @@ class FanoronaState(State):
         return self.__acting_player
 
     def clone(self):
-        cloned_state = FanoronaState(self.__num_rows, self.__num_cols)
+        cloned_state = FanoronaState()
         cloned_state.__turns_count = self.__turns_count
         cloned_state.__acting_player = self.__acting_player
         cloned_state.__has_winner = self.__has_winner
