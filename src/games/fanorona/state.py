@@ -39,6 +39,7 @@ class FanoronaState(State):
                        ]
         self.__last_move_p0 = None
         self.__last_move_p1 = None
+        self.last_piece_pos = None
 
         """
         counts the number of turns in the current game
@@ -65,7 +66,6 @@ class FanoronaState(State):
     def get_num_players(self):
         return 2
 
-    #TODO: incomplete function
     def validate_action(self, action: FanoronaAction) -> bool:
         move = self.verify_move(action)
         if self.__grid[action.get_final_x()][action.get_final_y()] != FanoronaState.EMPTY_CELL :
@@ -75,6 +75,8 @@ class FanoronaState(State):
         if self.__acting_player == 0 and move == self.__last_move_p0:
             return False
         if self.__acting_player == 1 and move == self.__last_move_p1:
+            return False
+        if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
             return False
         return True
 
@@ -178,10 +180,13 @@ class FanoronaState(State):
         # determine if there is a winner
         self.__has_winner = self.__check_winner(self.__acting_player)
 
+        self.last_piece_pos = [final_x,final_y]
         # switch to next player
         #verify if the player eat pieces if true does not change the player
         if draw_pieces_up == 0 and draw_pieces_down == 0 and draw_pieces_left == 0 and draw_pieces_right == 0:
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
+            self.last_piece_pos = None
+
         self.__turns_count += 1
 
     def verify_move(self,action: FanoronaAction) -> str:
