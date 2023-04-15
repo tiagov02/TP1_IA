@@ -58,6 +58,16 @@ class FanoronaState(State):
 
     #!TODO: CHECK WINNER
     def __check_winner(self, player):
+        white_pieces = 0
+        black_pieces = 0
+        for row in range(0,self.__num_rows):
+            for col in range(0,self.__num_cols):
+                if self.__grid[row][col] == FanoronaState.WHITE_CELL:
+                    white_pieces += 1
+                elif self.__grid[row][col] == FanoronaState.BLACK_CELL:
+                    black_pieces += 1
+        if white_pieces == 0 or black_pieces == 0:
+            return True
         return False
 
     def get_grid(self):
