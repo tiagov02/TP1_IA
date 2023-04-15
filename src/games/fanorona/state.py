@@ -80,19 +80,14 @@ class FanoronaState(State):
         move = self.verify_move(action)
         if action.get_initial_x() > self.__num_rows or action.get_initial_y() > self.__num_cols \
             or action.get_final_x() > self.__num_rows or action.get_final_y() > self.__num_cols:
-            print()
             return False
         if action.get_initial_x() < 0 or action.get_initial_y() < 0 or action.get_final_x() < 0 or action.get_final_y() < 0:
-            print()
             return False
         if self.__grid[action.get_initial_x()][action.get_initial_y()] != self.__acting_player:
-            print()
             return False
         if self.__grid[action.get_final_x()][action.get_final_y()] != FanoronaState.EMPTY_CELL :
-            print()
             return False
         if move == FanoronaState.INVALID_MOVE:
-            print()
             return False
         # if self.__acting_player == 0 and self.__last_move_p0 is not None:
         #     if self.__last_move_p0 != move:
@@ -105,7 +100,7 @@ class FanoronaState(State):
             print()
             return False
         '''
-        print()
+
         return True
 
     def update(self, action: FanoronaAction):
@@ -262,7 +257,7 @@ class FanoronaState(State):
             for col in range(0, self.__num_cols):
                 self.__display_cell(row, col)
                 print('|', end="")
-            print("")
+            print(f"\t{row}")
             self.__display_separator()
 
         self.__display_numbers()
