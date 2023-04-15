@@ -17,7 +17,7 @@ class FanoronaState(State):
     VERTICAL_UP = "vertical_up"
     DIAGONAL_DOWN = "diagonal_down"
     DIAGONAL_UP = "diagonal_up"
-    INVALID_MOOVE = "invalid_moove"
+    INVALID_MOOVE = "invalid_move"
 
     def __init__(self, num_rows: int = 9, num_cols: int = 5):
         super().__init__()
@@ -37,8 +37,8 @@ class FanoronaState(State):
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        ]
-        self.__last_moove_p0 = None
-        self.__last_moove_p1 = None
+        self.__last_move_p0 = None
+        self.__last_move_p1 = None
 
         """
         counts the number of turns in the current game
@@ -67,14 +67,14 @@ class FanoronaState(State):
 
     #TODO: incomplete function
     def validate_action(self, action: FanoronaAction) -> bool:
-        moove = self.verify_moove(action)
+        move = self.verify_move(action)
         if self.__grid[action.get_final_x()][action.get_final_y()] != FanoronaState.EMPTY_CELL :
             return False
-        if moove == FanoronaState.INVALID_MOOVE:
+        if move == FanoronaState.INVALID_MOOVE:
             return False
-        if self.__acting_player == 0 and moove == self.__last_moove_p0:
+        if self.__acting_player == 0 and move == self.__last_move_p0:
             return False
-        if self.__acting_player == 1 and moove == self.__last_moove_p1:
+        if self.__acting_player == 1 and move == self.__last_move_p1:
             return False
         return True
 
@@ -83,23 +83,25 @@ class FanoronaState(State):
         initial_y = action.get_initial_y()
         final_x = action.get_final_x()
         final_y = action.get_final_y()
-        draw_pieces_down = 0
-        draw_pieces_up = 0
-        moove = self.verify_moove(action)
+        draw_pieces_down : int = 0
+        draw_pieces_up : int= 0
+        draw_pieces_left : int = 0
+        draw_pieces_right : int = 0
+        move = self.verify_move(action)
 
         if self.__acting_player == 0:
-            self.__last_moove_p0 = moove
+            self.__last_move_p0 = move
         else:
-            self.__last_moove_p1 = moove
+            self.__last_move_p1 = move
 
-        #mooves the piece
+        #moves the piece
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
 
         #TODO: capture pieces
         # always in a same direction
         #verifications if the move is diagonal
-        if moove is FanoronaState.DIAGONAL_UP or FanoronaState.DIAGONAL_DOWN :
+        if move is FanoronaState.DIAGONAL_UP or FanoronaState.DIAGONAL_DOWN :
             for i in range(final_x + 1,self.get_num_cols()):
                 if self.__grid[i][i] != self.__acting_player:
                     draw_pieces_down += 1
@@ -116,7 +118,7 @@ class FanoronaState(State):
                         self.__grid[i][i] = FanoronaState.EMPTY_CELL
                     else:
                         break
-            else:
+            if draw_pieces_up > draw_pieces_down :
                 for i in range(final_x - 1, -1, -1):
                     if self.__grid[i][i] != self.__acting_player:
                         self.__grid[i][i] = FanoronaState.EMPTY_CELL
@@ -124,7 +126,7 @@ class FanoronaState(State):
                         break
 
         #verifications if the move is vertical
-        if moove is FanoronaState.VERTICAL_UP or FanoronaState.VERTICAL_DOWN:
+        if move is FanoronaState.VERTICAL_UP or FanoronaState.VERTICAL_DOWN:
             for i in range(final_x + 1, self.__num_rows):
                 if self.__grid[i][final_y] != self.__acting_player:
                     draw_pieces_down += 1
@@ -141,13 +143,37 @@ class FanoronaState(State):
                         self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
                     else:
                         break
-            else:
+            if draw_pieces_up > draw_pieces_down:
                 for i in range(final_x - 1, -1 - 1):
                     if self.__grid[i][final_y] != self.__acting_player:
                         self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
                     else:
                         break
 
+        #verifications if the move is horizontal
+        if move is FanoronaState.VERTICAL_UP or FanoronaState.VERTICAL_DOWN:
+            for i in range(final_y + 1, self.__num_cols):
+                if self.__grid[final_x][i] != self.__acting_player:
+                    draw_pieces_right += 1
+                else:
+                    break
+            for i in range(final_x -1 , -1, -1):
+                if self.__grid[final_x][i] != self.__acting_player:
+                    draw_pieces_left += 1
+                else:
+                    break
+            if draw_pieces_right > draw_pieces_left :
+                for i in range(final_y + 1, self.__num_cols):
+                    if self.__grid[final_x][i] != self.__acting_player:
+                        self.__grid[final_x][i] = FanoronaState.EMPTY_CELL
+                    else:
+                        break
+            if draw_pieces_right < draw_pieces_left:
+                for i in range(final_x - 1, -1, -1):
+                    if self.__grid[final_x][i] != self.__acting_player:
+                        draw_pieces_left += 1
+                    else:
+                        break
 
         # determine if there is a winner
         self.__has_winner = self.__check_winner(self.__acting_player)
@@ -158,7 +184,7 @@ class FanoronaState(State):
 
         self.__turns_count += 1
 
-    def verify_moove(self,action: FanoronaAction) -> str:
+    def verify_move(self,action: FanoronaAction) -> str:
         if action.get_difference_x() == action.get_difference_x() and action.get_difference_y() < 0:
             return FanoronaState.DIAGONAL_DOWN
         if action.get_difference_x() == action.get_difference_x() and action.get_difference_y() > 0:
@@ -222,8 +248,8 @@ class FanoronaState(State):
         cloned_state.__turns_count = self.__turns_count
         cloned_state.__acting_player = self.__acting_player
         cloned_state.__has_winner = self.__has_winner
-        cloned_state.__last_moove_p0 = self.__last_moove_p0
-        cloned_state.__last_moove_p1 = self.__last_moove_p1
+        cloned_state.__last_move_p0 = self.__last_move_p0
+        cloned_state.__last_move_p1 = self.__last_move_p1
         for row in range(0, self.__num_rows):
             for col in range(0, self.__num_cols):
                 cloned_state.__grid[row][col] = self.__grid[row][col]
