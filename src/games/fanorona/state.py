@@ -34,8 +34,8 @@ class FanoronaState(State):
         self.__grid = [[FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
                        [FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.EMPTY_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL,FanoronaState.BLACK_CELL,FanoronaState.WHITE_CELL],
-                       [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
-                       [FanoronaState.BLACK_CELL for _i in range(self.__num_cols)],
+                       [FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
+                       [FanoronaState.WHITE_CELL for _i in range(self.__num_cols)],
                        ]
         self.__last_move_p0 = None
         self.__last_move_p1 = None
@@ -78,6 +78,13 @@ class FanoronaState(State):
 
     def validate_action(self, action: FanoronaAction) -> bool:
         move = self.verify_move(action)
+        if action.get_initial_x() > self.__num_rows or action.get_initial_y() > self.__num_cols \
+            or action.get_final_x() > self.__num_rows or action.get_final_y() > self.__num_cols:
+            return False
+        if action.get_initial_x() < 0 or action.get_initial_y() < 0 or action.get_final_x() < 0 or action.get_final_y() < 0:
+            return False
+        if self.__grid[action.get_initial_x()][action.get_initial_y()] != self.__acting_player:
+            return False
         if self.__grid[action.get_final_x()][action.get_final_y()] != FanoronaState.EMPTY_CELL :
             return False
         if move == FanoronaState.INVALID_MOVE:
@@ -88,11 +95,7 @@ class FanoronaState(State):
             return False
         if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
             return False
-        if action.get_initial_x() < 0 or action.get_initial_y() < 0 or action.get_final_x() < 0 or action.get_final_y() < 0:
-            return False
-        if action.get_initial_x() > self.__num_rows or action.get_initial_y() > self.__num_cols \
-            or action.get_final_x() > self.__num_rows or action.get_final_y() > self.__num_cols:
-            return False
+
 
         return True
 
