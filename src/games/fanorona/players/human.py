@@ -10,10 +10,18 @@ class HumanFanoronaPlayer(FanoronaPlayer):
 
     def get_action(self, state: FanoronaState):
         state.display()
+        initial_x = int(input(f"Player {state.get_acting_player()}, choose the line of the piece that you"
+                                                f"want to move: "))
+        initial_y= int(input("and the column"))
+        final_x = int(input(f"and now the line that you want to move: "))
+        final_y = int(input("and a column"))
         while True:
             # noinspection PyBroadException
             try:
-                return FanoronaAction(int(input(f"Player {state.get_acting_player()}, choose a column: ")))
+                return FanoronaAction(initial_x = initial_x,
+                                      initial_y= initial_y,
+                                      final_x = final_x,
+                                      final_y = final_y)
             except Exception:
                 continue
 

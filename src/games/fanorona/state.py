@@ -120,7 +120,7 @@ class FanoronaState(State):
         # always in a same direction
         #verifications if the move is diagonal
         if move is FanoronaState.DIAGONAL_UP or FanoronaState.DIAGONAL_DOWN :
-            for i in range(final_x + 1,self.get_num_cols()):
+            for i in range(final_x + 1,self.get_num_rows()):
                 if self.__grid[i][i] != self.__acting_player:
                     draw_pieces_down += 1
                 else:
@@ -131,7 +131,7 @@ class FanoronaState(State):
                 else:
                     break
             if draw_pieces_up < draw_pieces_down :
-                for i in range(final_x + 1, self.get_num_cols()):
+                for i in range(final_x + 1, self.get_num_rows()):
                     if self.__grid[i][i] != self.__acting_player:
                         self.__grid[i][i] = FanoronaState.EMPTY_CELL
                     else:
