@@ -122,7 +122,7 @@ class FanoronaState(State):
         #capture pieces
         # always in a same direction
         #verifications if the move is diagonal
-        if move is FanoronaState.DIAGONAL_UP or FanoronaState.DIAGONAL_DOWN :
+        if move == FanoronaState.DIAGONAL_UP or move == FanoronaState.DIAGONAL_DOWN :
             for i in range(final_x + 1,self.get_num_rows()):
                 if self.__grid[i][i] != self.__acting_player:
                     draw_pieces_down += 1
@@ -147,13 +147,13 @@ class FanoronaState(State):
                         break
 
         #verifications if the move is vertical
-        if move is FanoronaState.VERTICAL_UP or FanoronaState.VERTICAL_DOWN:
+        if move == FanoronaState.VERTICAL_UP or move == FanoronaState.VERTICAL_DOWN:
             for i in range(final_x + 1, self.__num_rows):
                 if self.__grid[i][final_y] != self.__acting_player:
                     draw_pieces_down += 1
                 else:
                     break
-            for i in range(final_x - 1,-1-1):
+            for i in range(final_x - 1,-1,-1):
                 if self.__grid[i][final_y] != self.__acting_player:
                     draw_pieces_up += 1
                 else:
@@ -165,14 +165,14 @@ class FanoronaState(State):
                     else:
                         break
             if draw_pieces_up > draw_pieces_down:
-                for i in range(final_x - 1, -1 - 1):
+                for i in range(final_x - 1, -1 ,- 1):
                     if self.__grid[i][final_y] != self.__acting_player:
                         self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
                     else:
                         break
 
         #verifications if the move is horizontal
-        if move is FanoronaState.HORIZONTAL_LEFT or FanoronaState.HORIZONTAL_RIGHT:
+        if move == FanoronaState.HORIZONTAL_LEFT or move == FanoronaState.HORIZONTAL_RIGHT:
             for i in range(final_y + 1, self.__num_cols):
                 if self.__grid[final_x][i] != self.__acting_player:
                     draw_pieces_right += 1
@@ -209,9 +209,9 @@ class FanoronaState(State):
         self.__turns_count += 1
 
     def verify_move(self,action: FanoronaAction) -> str:
-        if action.get_difference_x() == action.get_difference_x() and action.get_difference_y() < 0:
+        if action.get_difference_x() == action.get_difference_y() and action.get_difference_y() < 0:
             return FanoronaState.DIAGONAL_DOWN
-        if action.get_difference_x() == action.get_difference_x() and action.get_difference_y() > 0:
+        if action.get_difference_x() == action.get_difference_y() and action.get_difference_y() > 0:
             return FanoronaState.DIAGONAL_UP
         if action.get_difference_x() == 0 and action.get_difference_y() < 0:
             return FanoronaState.HORIZONTAL_RIGHT
