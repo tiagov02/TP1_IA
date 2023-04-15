@@ -163,7 +163,7 @@ class FanoronaState(State):
                         break
 
         #verifications if the move is horizontal
-        if move is FanoronaState.VERTICAL_UP or FanoronaState.VERTICAL_DOWN:
+        if move is FanoronaState.HORIZONTAL_LEFT or FanoronaState.HORIZONTAL_RIGHT:
             for i in range(final_y + 1, self.__num_cols):
                 if self.__grid[final_x][i] != self.__acting_player:
                     draw_pieces_right += 1
