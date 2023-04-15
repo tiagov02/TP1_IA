@@ -19,7 +19,7 @@ class FanoronaState(State):
     DIAGONAL_UP = "diagonal_up"
     INVALID_MOVE = "invalid_move"
 
-    def __init__(self, num_rows: int = 9, num_cols: int = 5):
+    def __init__(self, num_rows: int = 5, num_cols: int = 9):
         super().__init__()
 
         """
@@ -250,7 +250,7 @@ class FanoronaState(State):
         print("")
 
     def __is_full(self):
-        return self.__turns_count > (self.__num_cols * self.__num_rows)
+        return False
 
     def is_finished(self) -> bool:
         return self.__has_winner or self.__is_full()
@@ -265,9 +265,7 @@ class FanoronaState(State):
         cloned_state.__has_winner = self.__has_winner
         cloned_state.__last_move_p0 = self.__last_move_p0
         cloned_state.__last_move_p1 = self.__last_move_p1
-        for row in range(0, self.__num_rows):
-            for col in range(0, self.__num_cols):
-                cloned_state.__grid[row][col] = self.__grid[row][col]
+        cloned_state.__grid = self.__grid
         return cloned_state
 
     def get_result(self, pos) -> Optional[FanoronaResult]:
