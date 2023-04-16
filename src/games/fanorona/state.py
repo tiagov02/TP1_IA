@@ -78,7 +78,7 @@ class FanoronaState(State):
 
     def validate_action(self, action: FanoronaAction) -> bool:
         move = self.verify_move(action)
-        if action.get_initial_x() > self.__num_rows or action.get_initial_y() > self.__num_cols \
+        if action.get_initial_x() > self.__num_rows  or action.get_initial_y() > self.__num_cols  \
             or action.get_final_x() > self.__num_rows or action.get_final_y() > self.__num_cols:
             return False
         if action.get_initial_x() < 0 or action.get_initial_y() < 0 or action.get_final_x() < 0 or action.get_final_y() < 0:
