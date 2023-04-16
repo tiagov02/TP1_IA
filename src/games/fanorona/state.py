@@ -279,6 +279,7 @@ class FanoronaState(State):
         cloned_state.__has_winner = self.__has_winner
         cloned_state.__last_move_p0 = self.__last_move_p0
         cloned_state.__last_move_p1 = self.__last_move_p1
+        cloned_state.last_piece_pos = self.last_piece_pos
         cloned_state.__grid = self.__grid
         return cloned_state
 
