@@ -137,7 +137,7 @@ class FanoronaState(State):
                     draw_pieces_up += 1
                 else:
                     break
-            if draw_pieces_up < draw_pieces_down :
+            if draw_pieces_up <= draw_pieces_down :
                 for i in range(final_x + 1, self.get_num_rows()):
                     if self.__grid[i][i] != self.__acting_player and self.__grid[i][i] != FanoronaState.EMPTY_CELL:
                         self.__grid[i][i] = FanoronaState.EMPTY_CELL
@@ -162,7 +162,7 @@ class FanoronaState(State):
                     draw_pieces_up += 1
                 else:
                     break
-            if draw_pieces_up < draw_pieces_down:
+            if draw_pieces_up <= draw_pieces_down:
                 for i in range(final_x + 1, self.__num_rows):
                     if self.__grid[i][final_y] != self.__acting_player and self.__grid[i][final_y] != FanoronaState.EMPTY_CELL:
                         self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
@@ -187,7 +187,7 @@ class FanoronaState(State):
                     draw_pieces_left += 1
                 else:
                     break
-            if draw_pieces_right > draw_pieces_left :
+            if draw_pieces_right >= draw_pieces_left :
                 for i in range(final_y + 1, self.__num_cols):
                     if self.__grid[final_x][i] != self.__acting_player and self.__grid[final_x][i] != FanoronaState.EMPTY_CELL:
                         self.__grid[final_x][i] = FanoronaState.EMPTY_CELL
