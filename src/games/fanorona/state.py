@@ -15,8 +15,10 @@ class FanoronaState(State):
     HORIZONTAL_LEFT = "horizontal_left"
     VERTICAL_DOWN = "vertical_right"
     VERTICAL_UP = "vertical_up"
-    DIAGONAL_DOWN = "diagonal_down"
-    DIAGONAL_UP = "diagonal_up"
+    DIAGONAL_DOWN_RIGHT = "diagonal_down_right"
+    DIAGONAL_DOWN_LEFT = "diagonal_down_left"
+    DIAGONAL_UP_RIGHT = "diagonal_up_right"
+    DIAGONAL_UP_LEFT = "diagonal_up_left"
     INVALID_MOVE = "invalid_move"
 
     def __init__(self):
@@ -123,33 +125,7 @@ class FanoronaState(State):
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
 
-        #capture pieces
-        # always in a same direction
-        #verifications if the move is diagonal
-        if move == FanoronaState.DIAGONAL_UP or move == FanoronaState.DIAGONAL_DOWN :
-            for i in range(final_x + 1,self.get_num_rows()):
-                if self.__grid[i][i] != self.__acting_player and self.__grid[i][i] != FanoronaState.EMPTY_CELL:
-                    draw_pieces_down += 1
-                else:
-                    break
-            for i in range(final_x - 1,-1,-1):
-                if self.__grid[i][i] != self.__acting_player and self.__grid[i][i] != FanoronaState.EMPTY_CELL:
-                    draw_pieces_up += 1
-                else:
-                    break
-            if draw_pieces_up > draw_pieces_down :
-                for i in range(final_x + 1, self.get_num_rows()):
-                    if self.__grid[i][i] != self.__acting_player and self.__grid[i][i] != FanoronaState.EMPTY_CELL:
-                        self.__grid[i][i] = FanoronaState.EMPTY_CELL
-                    else:
-                        break
-            if draw_pieces_up <= draw_pieces_down :
-                for i in range(final_x - 1, -1, -1):
-                    if self.__grid[i][i] != self.__acting_player and self.__grid[i][i] != FanoronaState.EMPTY_CELL:
-                        self.__grid[i][i] = FanoronaState.EMPTY_CELL
-                    else:
-                        break
-
+       #todo: move vertically
         #verifications if the move is vertical
         if move == FanoronaState.VERTICAL_UP or move == FanoronaState.VERTICAL_DOWN:
             for i in range(final_x + 1, self.__num_rows):
@@ -213,10 +189,14 @@ class FanoronaState(State):
         self.__turns_count += 1
 
     def verify_move(self,action: FanoronaAction) -> str:
-        if action.get_difference_x() == action.get_difference_y() and action.get_difference_y() < 0:
-            return FanoronaState.DIAGONAL_DOWN
         if action.get_difference_x() == action.get_difference_y() and action.get_difference_y() > 0:
-            return FanoronaState.DIAGONAL_UP
+            return FanoronaState.DIAGONAL_UP_LEFT
+        if action.get_difference_x() == (-1 * action.get_difference_y()) and action.get_difference_x() < 0:
+            return FanoronaState.DIAGONAL_DOWN_LEFT
+        if action.get_difference_x() == action.get_difference_y() and action.get_difference_y() < 0:
+            return FanoronaState.DIAGONAL_DOWN_RIGHT
+        if action.get_difference_x() == (-1 * action.get_difference_y()) and action.get_difference_y() < 0:
+            return FanoronaState.DIAGONAL_UP_RIGHT
         if action.get_difference_x() == 0 and action.get_difference_y() < 0:
             return FanoronaState.HORIZONTAL_RIGHT
         if action.get_difference_x() == 0 and action.get_difference_y() > 0:
