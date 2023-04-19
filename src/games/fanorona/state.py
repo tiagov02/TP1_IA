@@ -246,39 +246,43 @@ class FanoronaState(State):
                 if number_blanks > 1:
                     break
                 if self.__grid[row][col] !=self.__acting_player:
-                    draw_pieces_down += 1
+                    draw_pieces_up += 1
                 if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
                     break
-            while True:
-                row += 1
-                col -= 1
-                if row > self.__num_rows - 1:
-                    break
-                if col < 0:
-                    break
-                if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
-                    number_blanks += 1
-                if number_blanks > 1:
-                    break
-                if self.__grid[row][col] !=self.__acting_player:
-                    draw_pieces_down += 1
-                if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
-                    break
-            while True:
-                row -= 1
-                col += 1
-                if row < 0:
-                    break
-                if col > self.__num_cols - 1:
-                    break
-                if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
-                    number_blanks += 1
-                if number_blanks > 1:
-                    break
-                if self.__grid[row][col] !=self.__acting_player:
-                    draw_pieces_down += 1
-                if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
-                    break
+            if draw_pieces_down >= draw_pieces_up:
+                while True:
+                    row += 1
+                    col -= 1
+                    if row > self.__num_rows - 1:
+                        break
+                    if col < 0:
+                        break
+                    if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
+                        number_blanks += 1
+                    if number_blanks > 1:
+                        break
+                    if self.__grid[row][col] != self.__acting_player:
+                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
+                    if self.__grid[row][col] != self.__acting_player and self.__grid[row][
+                        col] != FanoronaState.EMPTY_CELL:
+                        break
+            if draw_pieces_down < draw_pieces_up:
+                while True:
+                    row -= 1
+                    col += 1
+                    if row < 0:
+                        break
+                    if col > self.__num_cols - 1:
+                        break
+                    if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
+                        number_blanks += 1
+                    if number_blanks > 1:
+                        break
+                    if self.__grid[row][col] != self.__acting_player:
+                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
+                    if self.__grid[row][col] != self.__acting_player and self.__grid[row][
+                        col] != FanoronaState.EMPTY_CELL:
+                        break
 
 
         #verifications if the move is vertical
