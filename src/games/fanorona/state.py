@@ -128,12 +128,80 @@ class FanoronaState(State):
        #todo: move vertically
         if move == FanoronaState.DIAGONAL_UP_LEFT or move == FanoronaState.DIAGONAL_DOWN_RIGHT:
             number_blanks = 0
-            for i in range(initial_x + 1, self.__num_rows):
-                if self.__grid[i][i] !=self.__acting_player:
-                    draw_pieces_down += 1
-                if self.__grid == FanoronaState.EMPTY_CELL:
+            row = initial_x
+            col = initial_y
+            while True:
+                row += 1
+                col += 1
+                if row > self.__num_rows - 1:
+                    break
+                if col > self.__num_rows - 1:
+                    break
+                if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
                     number_blanks += 1
+                    if number_blanks > 1:
+                        break
+                if self.__grid[row][col] !=self.__acting_player:
+                    draw_pieces_down += 1
+                if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
+                    break
+            row = initial_x
+            col = initial_y
+            while True:
+                row -= 1
+                col -= 1
+                if row < 0:
+                    break
+                if col < 0:
+                    break
+                if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
+                    number_blanks += 1
+                    if number_blanks > 1:
+                        break
+                if self.__grid[row][col] !=self.__acting_player:
+                    draw_pieces_up += 1
+                if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
+                    break
+            if draw_pieces_down >= draw_pieces_up:
+                row = initial_x
+                col = initial_y
+                while True:
+                    row += 1
+                    col += 1
+                    if row > self.__num_rows - 1:
+                        break
+                    if col > self.__num_rows - 1:
+                        break
+                    if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
+                        number_blanks += 1
+                        if number_blanks > 1:
+                            break
+                    if self.__grid[row][col] != self.__acting_player:
+                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
+                    if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
+                        break
+            if draw_pieces_down < draw_pieces_up:
+                row = initial_x
+                col = initial_y
+                while True:
+                    row -= 1
+                    col -= 1
+                    if row < 0:
+                        break
+                    if col < 0:
+                        break
+                    if self.__grid[row][col] != self.__acting_player:
+                        draw_pieces_up += 1
+                    if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
+                        number_blanks += 1
+                        if number_blanks > 1:
+                            break
+                    if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
+                        break
 
+        #todo:
+        if move == FanoronaState.DIAGONAL_UP_RIGHT or move == FanoronaState.DIAGONAL_DOWN_LEFT:
+            return
         #verifications if the move is vertical
         if move == FanoronaState.VERTICAL_UP or move == FanoronaState.VERTICAL_DOWN:
             for i in range(initial_x + 1, self.__num_rows):
