@@ -121,10 +121,6 @@ class FanoronaState(State):
         else:
             self.__last_move_p1 = move
 
-        #moves the piece
-        self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
-        self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
-
        #move diag
         if move == FanoronaState.DIAGONAL_UP_LEFT or move == FanoronaState.DIAGONAL_DOWN_RIGHT:
             number_blanks = 0
@@ -376,6 +372,9 @@ class FanoronaState(State):
         if draw_pieces_up == 0 and draw_pieces_down == 0 and draw_pieces_left == 0 and draw_pieces_right == 0:
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
+        # moves the piece
+        self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
+        self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
 
         self.__turns_count += 1
 
