@@ -312,12 +312,13 @@ class FanoronaState(State):
                         break
             if draw_pieces_up < draw_pieces_down:
                 number_blanks = 0
-                for i in range(initial_x - 1, -1 ,- 1):
+                for i in range(initial_x + 1, self.__num_rows):
                     if self.__grid[i][final_y] == FanoronaState.EMPTY_CELL:
                         number_blanks += 1
                     if number_blanks > 1:
                         break
-                    if self.__grid[i][final_y] != self.__acting_player and self.__grid[i][final_y] != FanoronaState.EMPTY_CELL:
+                    if self.__grid[i][final_y] != self.__acting_player and self.__grid[i][
+                        final_y] != FanoronaState.EMPTY_CELL:
                         self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
                     if self.__grid[i][final_y] == self.__acting_player:
                         break
