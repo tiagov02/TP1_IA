@@ -310,7 +310,7 @@ class FanoronaState(State):
                         self.__grid[i][final_y] = FanoronaState.EMPTY_CELL
                     if self.__grid[i][final_y] == self.__acting_player:
                         break
-            if draw_pieces_up > draw_pieces_down:
+            if draw_pieces_up < draw_pieces_down:
                 number_blanks = 0
                 for i in range(initial_x - 1, -1 ,- 1):
                     if self.__grid[i][final_y] == FanoronaState.EMPTY_CELL:
