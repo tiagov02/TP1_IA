@@ -13,7 +13,7 @@ class FanoronaState(State):
     #MOVES
     HORIZONTAL_RIGHT = "horizontal_right"
     HORIZONTAL_LEFT = "horizontal_left"
-    VERTICAL_DOWN = "vertical_right"
+    VERTICAL_DOWN = "vertical_down"
     VERTICAL_UP = "vertical_up"
     DIAGONAL_DOWN_RIGHT = "diagonal_down_right"
     DIAGONAL_DOWN_LEFT = "diagonal_down_left"
