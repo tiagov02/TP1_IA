@@ -162,8 +162,7 @@ class FanoronaState(State):
                         break
                 if self.__grid[row][col] !=self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
                     draw_pieces_up += 1
-                if self.__grid[row][col] == self.__acting_player:
-                    break
+
             if draw_pieces_down >= draw_pieces_up:
                 row = initial_x
                 col = initial_y
@@ -194,30 +193,12 @@ class FanoronaState(State):
                         break
                     if col < 0:
                         break
-                    if self.__grid[row][col] != self.__acting_player:
-                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
-                    if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
-                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
-                    if number_blanks > 1:
-                        break
                     if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
-                        break
-                    if self.__grid[row][col] == self.__acting_player:
-                        break
-                number_blanks = 0
-                while True:
-                    row += 1
-                    col += 1
-                    if row > self.__num_rows -1 :
-                        break
-                    if col > self.__num_cols - 1:
-                        break
+                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
                     if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
                         number_blanks += 1
                     if number_blanks > 1:
                         break
-                    if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
-                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
                     if self.__grid[row][col] == self.__acting_player:
                         break
         #endmove
