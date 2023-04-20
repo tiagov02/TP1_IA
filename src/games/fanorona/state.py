@@ -158,6 +158,8 @@ class FanoronaState(State):
                         break
                 if self.__grid[row][col] !=self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
                     draw_pieces_up += 1
+                if self.__grid[row][col] == self.__acting_player:
+                    break
 
             if draw_pieces_down >= draw_pieces_up:
                 row = initial_x
@@ -189,12 +191,12 @@ class FanoronaState(State):
                         break
                     if col < 0:
                         break
-                    if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
-                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
                     if self.__grid[row][col] == FanoronaState.EMPTY_CELL:
                         number_blanks += 1
                     if number_blanks > 1:
                         break
+                    if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
+                        self.__grid[row][col] = FanoronaState.EMPTY_CELL
                     if self.__grid[row][col] == self.__acting_player:
                         break
         #endmove
@@ -218,6 +220,8 @@ class FanoronaState(State):
                 if self.__grid[row][col] == self.__acting_player:
                     break
             number_blanks = 0
+            row = initial_x
+            col = initial_y
             while True:
                 row -= 1
                 col += 1
@@ -235,6 +239,8 @@ class FanoronaState(State):
                     break
             if draw_pieces_down >= draw_pieces_up:
                 number_blanks = 0
+                row = initial_x
+                col = initial_y
                 while True:
                     row += 1
                     col -= 1
@@ -252,6 +258,8 @@ class FanoronaState(State):
                         break
             if draw_pieces_down < draw_pieces_up:
                 number_blanks = 0
+                row = initial_x
+                col = initial_y
                 while True:
                     row -= 1
                     col += 1
