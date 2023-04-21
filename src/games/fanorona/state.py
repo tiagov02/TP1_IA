@@ -358,7 +358,7 @@ class FanoronaState(State):
                             break
                 if self.__grid[final_x][i] != self.__acting_player and self.__grid[final_x][i] != FanoronaState.EMPTY_CELL:
                     draw_pieces_right += 1
-                    if i + 1 < self.__num_rows:
+                    if i + 1 < self.__num_cols:
                         if self.__grid[final_x][i + 1] == FanoronaState.EMPTY_CELL or self.__grid[final_x][i + 1] == self.__acting_player:
                             break
 
