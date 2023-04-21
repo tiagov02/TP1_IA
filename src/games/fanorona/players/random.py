@@ -12,7 +12,7 @@ class RandomFanoronaPlayer(FanoronaPlayer):
         super().__init__(name)
 
     def get_action(self, state: FanoronaState):
-        return FanoronaAction(randint(0, state.get_num_cols()))
+        return FanoronaAction(randint(0, state.get_num_rows()),randint(0, state.get_num_cols()),randint(0, state.get_num_rows()),randint(0, state.get_num_cols()))
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore
