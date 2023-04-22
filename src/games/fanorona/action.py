@@ -7,6 +7,7 @@ class FanoronaAction:
     __final_x: int
     __final_y: int
 
+#todo : new type of action
     def __init__(self, initial_x: int, initial_y:int, final_x:int, final_y:int):
         self.__initial_x = initial_x
         self.__initial_y = initial_y

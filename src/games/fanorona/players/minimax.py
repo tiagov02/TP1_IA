@@ -95,8 +95,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         if state.is_finished():
             return {
                 FanoronaResult.WIN: 40,
-                FanoronaResult.LOOSE: -40,
-                FanoronaResult.DRAW: 0
+                FanoronaResult.LOOSE: -40
             }[state.get_result(self.get_current_pos())]
 
         # if we reached the maximum depth, we will return the value of the heuristic

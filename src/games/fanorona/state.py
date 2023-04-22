@@ -58,7 +58,6 @@ class FanoronaState(State):
         """
         self.__has_winner = False
 
-    #!TODO: CHECK WINNER
     def __check_winner(self, player):
         white_pieces = 0
         black_pieces = 0
