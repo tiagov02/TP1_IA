@@ -104,6 +104,9 @@ class FanoronaState(State):
 
         return True
 
+    def get_last_piece_pos_actual(self):
+        return self.__last_move_p0 if self.__acting_player == 0 else self.__last_move_p1
+
     def update(self, action: FanoronaAction):
         initial_x = action.get_initial_x()
         initial_y = action.get_initial_y()
