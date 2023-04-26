@@ -67,9 +67,9 @@ class FanoronaState(State):
                     white_pieces += 1
                 elif self.__grid[row][col] == FanoronaState.BLACK_CELL:
                     black_pieces += 1
-        if white_pieces == 0 or black_pieces == 0:
-            return True
-        return False
+
+        return True if white_pieces == 0 or black_pieces == 0 else False
+
 
     def get_grid(self):
         return self.__grid
