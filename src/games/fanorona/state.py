@@ -107,6 +107,22 @@ class FanoronaState(State):
     def get_last_piece_pos_actual(self):
         return self.__last_move_p0 if self.__acting_player == 0 else self.__last_move_p1
 
+    def get_num_player_cards(self):
+        cont = 0
+        for row in range(0, self.__num_rows):
+            for col in range(0, self.__num_cols):
+                if self.__grid[row][col] == self.__acting_player:
+                    cont += 1
+        return cont
+
+    def get_opposite_cards(self):
+        cont = 0
+        for row in range(0, self.__num_rows):
+            for col in range(0, self.__num_cols):
+                if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
+                    cont += 1
+        return cont
+
     def update(self, action: FanoronaAction):
         initial_x = action.get_initial_x()
         initial_y = action.get_initial_y()
