@@ -34,7 +34,7 @@ class GreedyFanoronaPlayer(FanoronaPlayer):
                     temp_state.update(FanoronaAction(initial_x,initial_y,final_x,final_y))
                     if temp_state.get_opposite_cards() < state.get_opposite_cards():
                         selected_action = FanoronaAction(initial_x,initial_y,final_x,final_y)
-        #todo
+        #todo: same thing but with choose initial piece
         else:
             return
 
