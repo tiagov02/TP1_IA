@@ -12,11 +12,6 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
     def __init__(self, name):
         super().__init__(name)
 
-    '''
-    This heuristic will simply count the maximum number of consecutive pieces that the player has
-    It's not a great heuristic as it doesn't take into consideration a defensive approach
-    '''
-
     def get_empty_pos(self,state: FanoronaState):
         empty_pos = []
         for row in range(0, state.get_num_rows()):
@@ -135,8 +130,8 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         # first we check if we are in a terminal node (victory, draw or loose)
         if state.is_finished():
             return {
-                FanoronaResult.WIN: 40,
-                FanoronaResult.LOOSE: -40
+                FanoronaResult.WIN: 100,
+                FanoronaResult.LOOSE: 0 #todo: heuristic between [0,100] not included
             }[state.get_result(self.get_current_pos())]
 
         # if we reached the maximum depth, we will return the value of the heuristic
