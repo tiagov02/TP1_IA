@@ -35,7 +35,6 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_possible_actions(self, state: FanoronaState):
         possible_actions = []
-        temp_state = state.clone()
         empty_pos = self.get_empty_pos(state)
         initial_x = None
         initial_y = None
