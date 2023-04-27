@@ -1,5 +1,6 @@
 import math
 
+from games.fanorona.action import FanoronaAction
 from games.fanorona.player import FanoronaPlayer
 from games.fanorona.result import FanoronaResult
 from games.fanorona.state import FanoronaState
@@ -15,6 +16,47 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
     This heuristic will simply count the maximum number of consecutive pieces that the player has
     It's not a great heuristic as it doesn't take into consideration a defensive approach
     '''
+
+    def get_empty_pos(self,state: FanoronaState):
+        empty_pos = []
+        for row in range(0, state.get_num_rows()):
+            for col in range(0, state.get_num_cols()):
+                if state.get_grid()[row][col] == FanoronaState.EMPTY_CELL:
+                    empty_pos.append([row,col])
+        return empty_pos
+
+    def get_my_positions(self, state: FanoronaState):
+        my_pos = []
+        for row in range(0, state.get_num_rows()):
+            for col in range(state.get_num_cols()):
+                if state.get_grid()[row][col] == state.get_acting_player():
+                    my_pos.append([row,col])
+        return my_pos
+
+    def get_possible_actions(self, state: FanoronaState):
+        possible_actions = []
+        temp_state = state.clone()
+        empty_pos = self.get_empty_pos(state)
+        initial_x = None
+        initial_y = None
+        if state.get_last_piece_pos_actual() is not None:
+            initial_x, initial_y = state.get_last_piece_pos_actual()
+
+        if initial_x is not None and initial_y is not None:
+            for pos in empty_pos:
+                final_x, final_y = pos
+                if state.validate_action(FanoronaAction(initial_x, initial_y, final_x, final_y)):
+                    possible_actions.append([initial_x,initial_y,final_x,final_y])
+        else:
+            for init_pos in self.get_my_positions(state):
+                initial_x, initial_y = init_pos
+                for final_pos in empty_pos:
+                    final_x, final_y = final_pos
+                    if state.validate_action(FanoronaAction(initial_x, initial_y, final_x, final_y)):
+                        possible_actions.append([initial_x,initial_y,final_x,final_y])
+        return possible_actions
+
+
 
     def __heuristic(self, state: FanoronaState):
         grid = state.get_grid()
