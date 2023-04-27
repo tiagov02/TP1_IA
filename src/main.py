@@ -126,4 +126,4 @@ if __name__ == "__main__":
                        GreedyFanoronaPlayer("1"),
                        GreedyFanoronaPlayer("2")
                    ),
-                   1)
+                   3)
