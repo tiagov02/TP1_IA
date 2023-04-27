@@ -105,7 +105,7 @@ class FanoronaState(State):
         return True
 
     def get_last_piece_pos_actual(self):
-        return self.__last_move_p0 if self.__acting_player == 0 else self.__last_move_p1
+        return self.last_piece_pos
 
     def get_num_player_cards(self):
         cont = 0
@@ -514,7 +514,9 @@ class FanoronaState(State):
         cloned_state.__last_move_p0 = self.__last_move_p0
         cloned_state.__last_move_p1 = self.__last_move_p1
         cloned_state.last_piece_pos = self.last_piece_pos
-        cloned_state.__grid = self.__grid
+        for row in range(0, self.__num_rows):
+            for col in range(0, self.__num_cols):
+                cloned_state.__grid[row][col] = self.__grid[row][col]
         return cloned_state
 
     def get_result(self, pos) -> Optional[FanoronaResult]:
