@@ -51,7 +51,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         return possible_actions
 
 
-
+    #TODO:
     def __heuristic(self, state: FanoronaState):
         grid = state.get_grid()
         longest = 0
@@ -138,7 +138,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         if depth == 0:
             return self.__heuristic(state)
 
-        # if we are the acting player
+        # if we are the acting player --maximize the win
         if self.get_current_pos() == state.get_acting_player():
             # very small integer
             value = -math.inf
@@ -155,7 +155,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
             return selected_action if is_initial_node else value
 
-        # if it is the opponent's turn
+        # if it is the opponent's turn  --> minimize the loss
         else:
             value = math.inf
             for action in state.get_possible_actions():
