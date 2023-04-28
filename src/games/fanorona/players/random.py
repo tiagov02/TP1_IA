@@ -12,7 +12,11 @@ class RandomFanoronaPlayer(FanoronaPlayer):
         super().__init__(name)
 
     def get_action(self, state: FanoronaState):
-        return FanoronaAction(randint(0, state.get_num_rows()),randint(0, state.get_num_cols()),randint(0, state.get_num_rows()),randint(0, state.get_num_cols()))
+        if state.get_last_piece_pos_actual() is not None:
+            initial_x, initial_y = state.get_last_piece_pos_actual()
+            return FanoronaAction(initial_x,initial_y,randint(0, state.get_num_rows()), randint(0, state.get_num_cols()))
+        return FanoronaAction(randint(0, state.get_num_rows()), randint(0, state.get_num_cols()),
+                              randint(0, state.get_num_rows()), randint(0, state.get_num_cols()))
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore

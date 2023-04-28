@@ -104,7 +104,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
             return value
 
     def get_action(self, state: FanoronaState):
-        return self.minimax(state, 5)
+        return self.minimax(state.clone(), 5)
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore
