@@ -53,72 +53,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
     #TODO:
     def __heuristic(self, state: FanoronaState):
-        grid = state.get_grid()
-        longest = 0
-
-        # check each line
-        for row in range(0, state.get_num_rows()):
-            seq = 0
-            for col in range(0, state.get_num_cols()):
-                if grid[row][col] == self.get_current_pos():
-                    seq += 1
-                else:
-                    if seq > longest:
-                        longest = seq
-                    seq = 0
-
-            if seq > longest:
-                longest = seq
-
-        # check each column
-        for col in range(0, state.get_num_cols()):
-            seq = 0
-            for row in range(0, state.get_num_rows()):
-                if grid[row][col] == self.get_current_pos():
-                    seq += 1
-                else:
-                    if seq > longest:
-                        longest = seq
-                    seq = 0
-
-            if seq > longest:
-                longest = seq
-
-        # check each upward diagonal
-        for row in range(3, state.get_num_rows()):
-            for col in range(0, state.get_num_cols() - 3):
-                seq1 = (1 if grid[row][col] == self.get_current_pos() else 0) + \
-                       (1 if grid[row - 1][col + 1] == self.get_current_pos() else 0) + \
-                       (1 if grid[row - 2][col + 2] == self.get_current_pos() else 0)
-
-                seq2 = (1 if grid[row - 1][col + 1] == self.get_current_pos() else 0) + \
-                       (1 if grid[row - 2][col + 2] == self.get_current_pos() else 0) + \
-                       (1 if grid[row - 3][col + 3] == self.get_current_pos() else 0)
-
-                if seq1 > longest:
-                    longest = seq1
-
-                if seq2 > longest:
-                    longest = seq2
-
-        # check each downward diagonal
-        for row in range(0, state.get_num_rows() - 3):
-            for col in range(0, state.get_num_cols() - 3):
-                seq1 = (1 if grid[row][col] == self.get_current_pos() else 0) + \
-                       (1 if grid[row + 1][col + 1] == self.get_current_pos() else 0) + \
-                       (1 if grid[row + 2][col + 2] == self.get_current_pos() else 0)
-
-                seq2 = (1 if grid[row + 1][col + 1] == self.get_current_pos() else 0) + \
-                       (1 if grid[row + 2][col + 2] == self.get_current_pos() else 0) + \
-                       (1 if grid[row + 3][col + 3] == self.get_current_pos() else 0)
-
-                if seq1 > longest:
-                    longest = seq1
-
-                if seq2 > longest:
-                    longest = seq2
-
-        return longest
+        return state.get_num_player_cards() - state.get_opposite_cards()
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
     search should be made :param depth: maximum depth of the search :param alpha: to optimize the search :param beta: 
@@ -144,11 +79,13 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
             value = -math.inf
             selected_action = None
 
-            for action in state.get_possible_actions():
+            for pos in self.get_possible_actions(state):
                 pre_value = value
-                value = max(value, self.minimax(state.sim_play(action), depth - 1, alpha, beta, False))
+                initial_x, initial_y, final_x, final_y = pos
+                value = max(value,
+                            self.minimax(state.sim_play(FanoronaAction(initial_x,initial_y,final_x,final_y)), depth - 1, alpha, beta, False))
                 if value > pre_value:
-                    selected_action = action
+                    selected_action = FanoronaAction(initial_x,initial_y, final_x, final_y)
                 if value > beta:
                     break
                 alpha = max(alpha, value)
@@ -158,8 +95,9 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         # if it is the opponent's turn  --> minimize the loss
         else:
             value = math.inf
-            for action in state.get_possible_actions():
-                value = min(value, self.minimax(state.sim_play(action), depth - 1, alpha, beta, False))
+            for pos in self.get_possible_actions(state):
+                initial_x, initial_y, final_x, final_y = pos
+                value = min(value, self.minimax(state.sim_play(FanoronaAction(initial_x,initial_y,final_x,final_y)), depth - 1, alpha, beta, False))
                 if value < alpha:
                     break
                 beta = min(beta, value)
