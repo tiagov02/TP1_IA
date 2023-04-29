@@ -71,7 +71,6 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
         # if we reached the maximum depth, we will return the value of the heuristic
         if depth == 0:
-            a = self.__heuristic(state)
             return self.__heuristic(state)
 
         # if we are the acting player --maximize the win
