@@ -126,6 +126,6 @@ if __name__ == "__main__":
     run_simulation("Fanorona",
                    FanoronaSimulator(
                        MinimaxFanoronaPlayer("Greedy"),
-                       RandomFanoronaPlayer("Human")
+                       GreedyFanoronaPlayer("Human")
                    ),
                    1)

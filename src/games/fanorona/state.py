@@ -142,8 +142,8 @@ class FanoronaState(State):
        #move diag
         if move == FanoronaState.DIAGONAL_UP_LEFT or move == FanoronaState.DIAGONAL_DOWN_RIGHT:
             number_blanks = 0
-            row = initial_x
-            col = initial_y
+            row = final_x
+            col = final_y
             while True:
                 row += 1
                 col += 1
@@ -165,8 +165,8 @@ class FanoronaState(State):
                             col +1] == self.__acting_player:
                             break
 
-            row = initial_x
-            col = initial_y
+            row = final_x
+            col = final_y
             number_blanks = 0
             while True:
                 row -= 1
@@ -190,8 +190,8 @@ class FanoronaState(State):
                             break
 
             if draw_pieces_down >= draw_pieces_up:
-                row = initial_x
-                col = initial_y
+                row = final_x
+                col = final_y
                 number_blanks = 0
                 while True:
                     row += 1
@@ -215,8 +215,8 @@ class FanoronaState(State):
                                 break
 
             if draw_pieces_down < draw_pieces_up:
-                row = initial_x
-                col = initial_y
+                row = final_x
+                col = final_y
                 number_blanks = 0
                 while True:
                     row -= 1
@@ -241,8 +241,8 @@ class FanoronaState(State):
         #endmove
         if move == FanoronaState.DIAGONAL_UP_RIGHT or move == FanoronaState.DIAGONAL_DOWN_LEFT:
             number_blanks = 0
-            row = initial_x
-            col = initial_y
+            row = final_x
+            col = final_y
             while True:
                 row += 1
                 col -= 1
@@ -264,8 +264,8 @@ class FanoronaState(State):
                             col - 1] == self.__acting_player:
                             break
             number_blanks = 0
-            row = initial_x
-            col = initial_y
+            row = final_x
+            col = final_y
             while True:
                 row -= 1
                 col += 1
@@ -288,8 +288,8 @@ class FanoronaState(State):
                             break
             if draw_pieces_down >= draw_pieces_up:
                 number_blanks = 0
-                row = initial_x
-                col = initial_y
+                row = final_x
+                col = final_y
                 while True:
                     row += 1
                     col -= 1
@@ -312,8 +312,8 @@ class FanoronaState(State):
                                 break
             if draw_pieces_down < draw_pieces_up:
                 number_blanks = 0
-                row = initial_x
-                col = initial_y
+                row = final_x
+                col = final_y
                 while True:
                     row -= 1
                     col += 1
