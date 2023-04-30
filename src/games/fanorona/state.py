@@ -58,17 +58,8 @@ class FanoronaState(State):
         """
         self.__has_winner = False
 
-    def __check_winner(self, player):
-        white_pieces = 0
-        black_pieces = 0
-        for row in range(0,self.__num_rows):
-            for col in range(0,self.__num_cols):
-                if self.__grid[row][col] == FanoronaState.WHITE_CELL:
-                    white_pieces += 1
-                elif self.__grid[row][col] == FanoronaState.BLACK_CELL:
-                    black_pieces += 1
-
-        return True if white_pieces == 0 or black_pieces == 0 else False
+    def __check_winner(self):
+        return True if self.get_opposite_cards() == 0 else False
 
 
     def get_grid(self):
@@ -90,12 +81,15 @@ class FanoronaState(State):
             return False
         if move == FanoronaState.INVALID_MOVE:
             return False
+        """
         if self.__acting_player == 0 and self.__last_move_p0 is not None:
             if self.__last_move_p0 != move:
                 return False
         if self.__acting_player == 1 and self.__last_move_p1 is not None:
             if self.__last_move_p1 != move:
                 return False
+        """
+
         '''
         if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
             print()
@@ -469,9 +463,6 @@ class FanoronaState(State):
                             if self.__grid[final_x][i - 1] == FanoronaState.EMPTY_CELL or self.__grid[final_x][i - 1] == self.__acting_player:
                                 break
 
-        # determine if there is a winner
-        self.__has_winner = self.__check_winner(self.__acting_player)
-
         self.last_piece_pos = [final_x,final_y]
         # switch to next player
         #verify if the player eat pieces if true does not change the player
@@ -484,6 +475,9 @@ class FanoronaState(State):
         # moves the piece
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
+
+        # determine if there is a winner
+        self.__has_winner = self.__check_winner()
 
         self.__turns_count += 1
 
