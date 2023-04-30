@@ -12,42 +12,19 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
     def __init__(self, name):
         super().__init__(name)
 
-    def get_empty_pos(self,state: FanoronaState):
-        empty_pos = []
-        for row in range(0, state.get_num_rows()):
-            for col in range(0, state.get_num_cols()):
-                if state.get_grid()[row][col] == FanoronaState.EMPTY_CELL:
-                    empty_pos.append([row,col])
-        return empty_pos
-
-    def get_my_positions(self, state: FanoronaState):
-        my_pos = []
-        for row in range(0, state.get_num_rows()):
-            for col in range(state.get_num_cols()):
-                if state.get_grid()[row][col] == state.get_acting_player():
-                    my_pos.append([row,col])
-        return my_pos
-
     def get_possible_actions(self, state: FanoronaState):
         possible_actions = []
-        empty_pos = self.get_empty_pos(state)
-        initial_x = None
-        initial_y = None
-        if state.get_last_piece_pos_actual() is not None:
-            initial_x, initial_y = state.get_last_piece_pos_actual()
+        empty_pos = state.get_empty_pos()
+        initial_x, initial_y = state.get_last_piece_pos_actual() or (None, None)
 
-        if initial_x is not None and initial_y is not None:
-            for pos in empty_pos:
-                final_x, final_y = pos
-                if state.validate_action(FanoronaAction(initial_x, initial_y, final_x, final_y)):
-                    possible_actions.append([initial_x,initial_y,final_x,final_y])
-        else:
-            for init_pos in self.get_my_positions(state):
+        for init_pos in state.get_player_positions():
+            if initial_x is None or init_pos == [initial_x, initial_y]:
                 initial_x, initial_y = init_pos
                 for final_pos in empty_pos:
                     final_x, final_y = final_pos
                     if state.validate_action(FanoronaAction(initial_x, initial_y, final_x, final_y)):
-                        possible_actions.append([initial_x,initial_y,final_x,final_y])
+                        possible_actions.append([initial_x, initial_y, final_x, final_y])
+
         return possible_actions
 
     def get_my_mobility(self, state: FanoronaState):
@@ -110,7 +87,8 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_action(self, state: FanoronaState):
         state.display()
-        return self.minimax(state, 5)
+        a = self.minimax(state, 5)
+        return a
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore

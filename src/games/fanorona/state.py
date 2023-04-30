@@ -90,12 +90,12 @@ class FanoronaState(State):
             return False
         if move == FanoronaState.INVALID_MOVE:
             return False
-        # if self.__acting_player == 0 and self.__last_move_p0 is not None:
-        #     if self.__last_move_p0 != move:
-        #         return False
-        # if self.__acting_player == 1 and self.__last_move_p0 is not None:
-        #     if self.__last_move_p1 != move:
-        #         return False
+        if self.__acting_player == 0 and self.__last_move_p0 is not None:
+            if self.__last_move_p0 != move:
+                return False
+        if self.__acting_player == 1 and self.__last_move_p1 is not None:
+            if self.__last_move_p1 != move:
+                return False
         '''
         if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
             print()
@@ -478,11 +478,43 @@ class FanoronaState(State):
         if draw_pieces_up == 0 and draw_pieces_down == 0 and draw_pieces_left == 0 and draw_pieces_right == 0:
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
+        elif not self.have_possible_actions():
+            self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
+            self.last_piece_pos = None
         # moves the piece
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
 
         self.__turns_count += 1
+
+    def get_player_positions(self):
+        my_pos = []
+        for row in range(0, self.get_num_rows()):
+            for col in range(self.get_num_cols()):
+                if self.get_grid()[row][col] == self.get_acting_player():
+                    my_pos.append([row,col])
+        return my_pos
+
+    def get_empty_pos(self):
+        empty_pos = []
+        for row in range(0, self.get_num_rows()):
+            for col in range(0, self.get_num_cols()):
+                if self.get_grid()[row][col] == FanoronaState.EMPTY_CELL:
+                    empty_pos.append([row,col])
+        return empty_pos
+
+    def have_possible_actions(self) -> bool:
+        empty_pos = self.get_empty_pos()
+        initial_x, initial_y = self.get_last_piece_pos_actual() or (None, None)
+
+        for init_pos in self.get_player_positions():
+            if initial_x is None or init_pos == [initial_x, initial_y]:
+                initial_x, initial_y = init_pos
+                for final_pos in empty_pos:
+                    final_x, final_y = final_pos
+                    if self.validate_action(FanoronaAction(initial_x, initial_y, final_x, final_y)):
+                        return True
+        return False
 
     def verify_move(self,action: FanoronaAction) -> str:
         if action.get_difference_x() == action.get_difference_y() and action.get_difference_y() > 0:
