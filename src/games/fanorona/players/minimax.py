@@ -50,10 +50,15 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
                         possible_actions.append([initial_x,initial_y,final_x,final_y])
         return possible_actions
 
+    def get_my_mobility(self, state: FanoronaState):
+        return len(self.get_possible_actions(state))
 
     #TODO:
     def __heuristic(self, state: FanoronaState):
-        return state.get_num_player_cards()/(state.get_num_player_cards()+ state.get_opposite_cards())
+        """Because 45 is the maximum of blank spaces"""
+        mobility = self.get_my_mobility(state) / 45
+        percent_pieces = state.get_num_player_cards()/(state.get_num_player_cards()+ state.get_opposite_cards())
+        return (0.9* percent_pieces) + (0.1 * mobility)
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
     search should be made :param depth: maximum depth of the search :param alpha: to optimize the search :param beta: 
@@ -104,7 +109,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
             return value
 
     def get_action(self, state: FanoronaState):
-        #state.display()
+        state.display()
         return self.minimax(state, 5)
 
     def event_action(self, pos: int, action, new_state: State):
