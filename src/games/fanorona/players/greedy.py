@@ -1,6 +1,5 @@
 import math
 
-from random import choice
 from games.fanorona.action import FanoronaAction
 from games.fanorona.player import FanoronaPlayer
 from games.fanorona.state import FanoronaState

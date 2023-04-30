@@ -125,7 +125,7 @@ def main():
 if __name__ == "__main__":
     run_simulation("Fanorona",
                    FanoronaSimulator(
-                       HumanFanoronaPlayer("1"),
-                       HumanFanoronaPlayer("2")
+                       MinimaxFanoronaPlayer("1"),
+                       MinimaxFanoronaPlayer("2")
                    ),
-                   1)
+                   3)
