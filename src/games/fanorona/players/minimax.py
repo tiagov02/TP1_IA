@@ -53,7 +53,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
     #TODO:
     def __heuristic(self, state: FanoronaState):
-        return state.get_num_player_cards() - 7 * state.get_opposite_cards()
+        return (4 * state.get_num_player_cards()) - state.get_opposite_cards()
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
     search should be made :param depth: maximum depth of the search :param alpha: to optimize the search :param beta: 
