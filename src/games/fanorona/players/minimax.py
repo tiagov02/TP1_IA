@@ -53,7 +53,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
     #TODO:
     def __heuristic(self, state: FanoronaState):
-        return (4 * state.get_num_player_cards()) - state.get_opposite_cards()
+        return state.get_num_player_cards()/(state.get_num_player_cards()+ state.get_opposite_cards())
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
     search should be made :param depth: maximum depth of the search :param alpha: to optimize the search :param beta: 
@@ -65,7 +65,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         # first we check if we are in a terminal node (victory, draw or loose)
         if state.is_finished():
             return {
-                FanoronaResult.WIN: 100,
+                FanoronaResult.WIN: 1,
                 FanoronaResult.LOOSE: 0 #todo: heuristic between [0,100] not included
             }[state.get_result(self.get_current_pos())]
 
