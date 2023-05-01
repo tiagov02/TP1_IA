@@ -81,15 +81,14 @@ class FanoronaState(State):
             return False
         if move == FanoronaState.INVALID_MOVE:
             return False
-
+        """
         if self.__acting_player == 0 and self.__last_move_p0 is not None:
             if self.__last_move_p0 != move:
                 return False
         if self.__acting_player == 1 and self.__last_move_p1 is not None:
             if self.__last_move_p1 != move:
                 return False
-
-
+        """
         '''
         if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
             print()
@@ -471,13 +470,13 @@ class FanoronaState(State):
             self.last_piece_pos = None
             self.__last_move_p1 = None
             self.__last_move_p0 = None
-
+        '''
         elif not self.have_possible_actions():
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
             self.__last_move_p1 = None
             self.__last_move_p0 = None
-
+        '''
         # moves the piece
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
