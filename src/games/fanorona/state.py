@@ -69,7 +69,7 @@ class FanoronaState(State):
         return 2
 
     def validate_action(self, action: FanoronaAction) -> bool:
-        move = self.verify_move(action)
+        move = self.verify_move(action).split("_")[0]
         if action.get_initial_x() > self.__num_rows  or action.get_initial_y() > self.__num_cols  \
             or action.get_final_x() > self.__num_rows or action.get_final_y() > self.__num_cols:
             return False
@@ -81,14 +81,14 @@ class FanoronaState(State):
             return False
         if move == FanoronaState.INVALID_MOVE:
             return False
-        """
+
         if self.__acting_player == 0 and self.__last_move_p0 is not None:
             if self.__last_move_p0 != move:
                 return False
         if self.__acting_player == 1 and self.__last_move_p1 is not None:
             if self.__last_move_p1 != move:
                 return False
-        """
+
 
         '''
         if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
@@ -129,9 +129,9 @@ class FanoronaState(State):
         move = self.verify_move(action)
 
         if self.__acting_player == 0:
-            self.__last_move_p0 = move
+            self.__last_move_p0 = move.split("_")[0]
         else:
-            self.__last_move_p1 = move
+            self.__last_move_p1 = move.split("_")[0]
 
        #move diag
         if move == FanoronaState.DIAGONAL_UP_LEFT or move == FanoronaState.DIAGONAL_DOWN_RIGHT:
@@ -469,10 +469,14 @@ class FanoronaState(State):
         if draw_pieces_up == 0 and draw_pieces_down == 0 and draw_pieces_left == 0 and draw_pieces_right == 0:
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
+            self.__last_move_p1 = None
+            self.__last_move_p0 = None
 
         elif not self.have_possible_actions():
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
+            self.__last_move_p1 = None
+            self.__last_move_p0 = None
 
         # moves the piece
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
