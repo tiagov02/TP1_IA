@@ -87,8 +87,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_action(self, state: FanoronaState):
         state.display()
-        a = self.minimax(state, 15)
-        return a
+        return self.minimax(state, 15)
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore
