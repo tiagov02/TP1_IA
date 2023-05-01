@@ -59,6 +59,9 @@ class FanoronaState(State):
         self.__has_winner = False
 
     def __check_winner(self):
+        if self.__turns_count > (self.__num_cols * self.__num_rows) \
+            and self.get_opposite_cards() < self.get_num_player_cards():
+                return True
         return True if self.get_opposite_cards() == 0 else False
 
 
