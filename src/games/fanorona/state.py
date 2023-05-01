@@ -469,9 +469,11 @@ class FanoronaState(State):
         if draw_pieces_up == 0 and draw_pieces_down == 0 and draw_pieces_left == 0 and draw_pieces_right == 0:
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
+
         elif not self.have_possible_actions():
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
+
         # moves the piece
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
