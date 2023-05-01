@@ -59,9 +59,11 @@ class FanoronaState(State):
         self.__has_winner = False
 
     def __check_winner(self):
+        """
         if self.__turns_count > (self.__num_cols * self.__num_rows) \
             and self.get_opposite_cards() < self.get_num_player_cards():
                 return True
+        """
         return True if self.get_opposite_cards() == 0 else False
 
 
@@ -83,6 +85,8 @@ class FanoronaState(State):
         if self.__grid[action.get_final_x()][action.get_final_y()] != FanoronaState.EMPTY_CELL :
             return False
         if move == FanoronaState.INVALID_MOVE:
+            return False
+        if action.get_initial_x() == action.get_final_x() and action.get_initial_y() == action.get_final_y():
             return False
         """
         if self.__acting_player == 0 and self.__last_move_p0 is not None:
