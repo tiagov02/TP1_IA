@@ -101,7 +101,6 @@ class FanoronaState(State):
             print()
             return False
         '''
-
         return True
 
     def get_last_piece_pos_actual(self):
