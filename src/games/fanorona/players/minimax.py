@@ -35,7 +35,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         """Because 45 is the maximum of blank spaces"""
         mobility = self.get_my_mobility(state) / 45
         percent_pieces = state.get_num_player_cards()/(state.get_num_player_cards()+ state.get_opposite_cards())
-        return (0.9* percent_pieces) + (0.1 * mobility)
+        return (0.7* percent_pieces) + (0.3 * mobility)
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
     search should be made :param depth: maximum depth of the search :param alpha: to optimize the search :param beta: 
@@ -48,7 +48,7 @@ class MinimaxFanoronaPlayer(FanoronaPlayer):
         if state.is_finished():
             return {
                 FanoronaResult.WIN: 1,
-                FanoronaResult.LOOSE: 0 #todo: heuristic between [0,100] not included
+                FanoronaResult.LOOSE: 0 # heuristic between [0,1] not included
             }[state.get_result(self.get_current_pos())]
 
         # if we reached the maximum depth, we will return the value of the heuristic
