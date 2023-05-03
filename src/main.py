@@ -128,4 +128,4 @@ if __name__ == "__main__":
                        RandomFanoronaPlayer("2"),
                        MinimaxFanoronaPlayer("1")
                    ),
-                   8)
+                   2)
