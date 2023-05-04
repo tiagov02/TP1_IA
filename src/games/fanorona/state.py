@@ -53,18 +53,8 @@ class FanoronaState(State):
         """
         self.__acting_player = FanoronaState.WHITE_CELL
 
-        """
-        determine if a winner was found already 
-        """
-        self.__has_winner = False
 
-    def __check_winner(self):
 
-        if self.__turns_count > (self.__num_cols * self.__num_rows) \
-            and self.get_opposite_cards() < self.get_num_player_cards():
-                return True
-
-        return True if self.get_opposite_cards() == 0 else False
 
 
     def get_grid(self):
@@ -89,14 +79,14 @@ class FanoronaState(State):
             return False
         if action.get_initial_x() == action.get_final_x() and action.get_initial_y() == action.get_final_y():
             return False
-        """
+
         if self.__acting_player == 0 and self.__last_move_p0 is not None:
             if self.__last_move_p0 != move:
                 return False
         if self.__acting_player == 1 and self.__last_move_p1 is not None:
             if self.__last_move_p1 != move:
                 return False
-        """
+
         '''
         if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
             print()
@@ -107,19 +97,11 @@ class FanoronaState(State):
     def get_last_piece_pos_actual(self):
         return self.last_piece_pos
 
-    def get_num_player_cards(self):
+    def count_cards(self, player):
         cont = 0
         for row in range(0, self.__num_rows):
             for col in range(0, self.__num_cols):
-                if self.__grid[row][col] == self.__acting_player:
-                    cont += 1
-        return cont
-
-    def get_opposite_cards(self):
-        cont = 0
-        for row in range(0, self.__num_rows):
-            for col in range(0, self.__num_cols):
-                if self.__grid[row][col] != self.__acting_player and self.__grid[row][col] != FanoronaState.EMPTY_CELL:
+                if self.__grid[row][col] == player:
                     cont += 1
         return cont
 
@@ -477,19 +459,16 @@ class FanoronaState(State):
             self.last_piece_pos = None
             self.__last_move_p1 = None
             self.__last_move_p0 = None
-        '''
+
         elif not self.have_possible_actions():
             self.__acting_player = FanoronaState.BLACK_CELL if self.__acting_player == FanoronaState.WHITE_CELL else FanoronaState.WHITE_CELL
             self.last_piece_pos = None
             self.__last_move_p1 = None
             self.__last_move_p0 = None
-        '''
+
         # moves the piece
         self.__grid[final_x][final_y] = self.__grid[initial_x][initial_y]
         self.__grid[initial_x][initial_y] = FanoronaState.EMPTY_CELL
-
-        # determine if there is a winner
-        self.__has_winner = self.__check_winner()
 
         self.__turns_count += 1
 
@@ -579,11 +558,10 @@ class FanoronaState(State):
         self.__display_numbers()
         print("")
 
-    def __is_full(self):
-        return False
+
 
     def is_finished(self) -> bool:
-        return self.__has_winner or self.__is_full()
+        return self.count_cards(0) == 0 or self.count_cards(1) == 0
 
     def get_acting_player(self) -> int:
         return self.__acting_player
@@ -592,7 +570,6 @@ class FanoronaState(State):
         cloned_state = FanoronaState()
         cloned_state.__turns_count = self.__turns_count
         cloned_state.__acting_player = self.__acting_player
-        cloned_state.__has_winner = self.__has_winner
         cloned_state.__last_move_p0 = self.__last_move_p0
         cloned_state.__last_move_p1 = self.__last_move_p1
         cloned_state.last_piece_pos = self.last_piece_pos
@@ -602,11 +579,10 @@ class FanoronaState(State):
         return cloned_state
 
     def get_result(self, pos) -> Optional[FanoronaResult]:
-        if self.__has_winner:
-            return FanoronaResult.LOOSE if pos == self.__acting_player else FanoronaResult.WIN
-        if self.__is_full():
-            return FanoronaResult.DRAW
-        return None
+        if self.count_cards(pos) == 0:
+            return FanoronaResult.LOOSE
+        else:
+            return FanoronaResult.WIN
 
     def get_num_rows(self):
         return self.__num_rows

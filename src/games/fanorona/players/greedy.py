@@ -31,6 +31,9 @@ class GreedyFanoronaPlayer(FanoronaPlayer):
     def get_action(self, state: FanoronaState):
         grid = state.get_grid()
 
+        player = self.get_current_pos()
+        opponent = 0 if player == 1 else 1
+
         selected_action = None
         empty_pos = self.get_empty_pos(state)
         no_cards = math.inf
@@ -45,7 +48,7 @@ class GreedyFanoronaPlayer(FanoronaPlayer):
                 if state.validate_action(FanoronaAction(initial_x,initial_y,final_x,final_y)):
                     temp_state = state.clone()
                     temp_state.update(FanoronaAction(initial_x,initial_y,final_x,final_y))
-                    if temp_state.get_opposite_cards() < no_cards:
+                    if temp_state.count_cards(opponent) < no_cards:
                         no_cards = temp_state.get_opposite_cards()
                         selected_action = FanoronaAction(initial_x,initial_y,final_x,final_y)
         #todo: same thing but with choose initial piece
@@ -57,8 +60,8 @@ class GreedyFanoronaPlayer(FanoronaPlayer):
                     if state.validate_action(FanoronaAction(initial_x, initial_y, final_x, final_y)):
                         temp_state = state.clone()
                         temp_state.update(FanoronaAction(initial_x, initial_y, final_x, final_y))
-                        if temp_state.get_opposite_cards() < no_cards:
-                            no_cards = temp_state.get_opposite_cards()
+                        if temp_state.count_cards(opponent) < no_cards:
+                            no_cards = temp_state.count_cards(opponent)
                             selected_action = FanoronaAction(initial_x, initial_y, final_x, final_y)
 
         if selected_action is None:

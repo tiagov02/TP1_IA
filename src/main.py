@@ -4,9 +4,10 @@ from games.connect4.players.random import RandomConnect4Player
 from games.connect4.simulator import Connect4Simulator
 from games.fanorona.players.greedy import GreedyFanoronaPlayer
 from games.fanorona.players.human import HumanFanoronaPlayer
-from games.fanorona.players.minimax import MinimaxFanoronaPlayer
+from games.fanorona.players.offensive_minimax import OffensiveMinimaxFanoronaPlayer
 from games.fanorona.players.random import RandomFanoronaPlayer
 from games.fanorona.simulator import FanoronaSimulator
+from games.fanorona.state import FanoronaState
 from games.game_simulator import GameSimulator
 from games.poker.players.always_bet import AlwaysBetKuhnPokerPlayer
 from games.poker.players.always_bet_king import AlwaysBetKingKuhnPokerPlayer
@@ -27,8 +28,8 @@ def run_simulation(desc: str, simulator: GameSimulator, iterations: int):
     simulator.print_stats()
 
 
-def main():
-    print("ESTG IA Games Simulator")
+def machineVSmachine():
+
 
     num_iterations = 1000
 
@@ -121,11 +122,32 @@ def main():
     for sim in poker_simulations:
         run_simulation(sim["name"], KuhnPokerSimulator(sim["player1"], sim["player2"]), num_iterations)
 
+def main():
+    num_iterations = 2
+    print("ESTG IA Games Simulator")
+    print("\t Choose your option")
+    print("1 - machine vs machine")
+    print("2 - you vs machine")
+    print("3 - You vs Friend")
+    option = int(input())
+
+    if option == 1:
+        machineVSmachine()
+    elif option == 2:
+        print()
+    elif option == 3:
+        run_simulation("Fanorona",
+                       FanoronaSimulator(
+                           RandomFanoronaPlayer("2"),
+                           OffensiveMinimaxFanoronaPlayer("1")
+                       ),
+                       num_iterations)
+
 
 if __name__ == "__main__":
     run_simulation("Fanorona",
                    FanoronaSimulator(
-                       RandomFanoronaPlayer("2"),
-                       MinimaxFanoronaPlayer("1")
+                       OffensiveMinimaxFanoronaPlayer("2"),
+                       GreedyFanoronaPlayer("1")
                    ),
-                   2)
+                   3)
