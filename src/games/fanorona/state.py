@@ -475,11 +475,11 @@ class FanoronaState(State):
     def get_turns(self):
         return self.__turns_count
 
-    def get_player_positions(self):
+    def get_player_positions(self,player):
         my_pos = []
         for row in range(0, self.get_num_rows()):
             for col in range(self.get_num_cols()):
-                if self.get_grid()[row][col] == self.get_acting_player():
+                if self.get_grid()[row][col] == player:
                     my_pos.append([row,col])
         return my_pos
 
@@ -495,7 +495,7 @@ class FanoronaState(State):
         empty_pos = self.get_empty_pos()
         initial_x, initial_y = self.get_last_piece_pos_actual() or (None, None)
 
-        for init_pos in self.get_player_positions():
+        for init_pos in self.get_player_positions(self.__acting_player):
             if initial_x is None or init_pos == [initial_x, initial_y]:
                 initial_x, initial_y = init_pos
                 for final_pos in empty_pos:

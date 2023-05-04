@@ -2,6 +2,7 @@ from games.connect4.players.greedy import GreedyConnect4Player
 from games.connect4.players.minimax import MinimaxConnect4Player
 from games.connect4.players.random import RandomConnect4Player
 from games.connect4.simulator import Connect4Simulator
+from games.fanorona.players.defensive_minimax import DefensiveMinimaxFanoronaPlayer
 from games.fanorona.players.greedy import GreedyFanoronaPlayer
 from games.fanorona.players.human import HumanFanoronaPlayer
 from games.fanorona.players.offensive_minimax import OffensiveMinimaxFanoronaPlayer
@@ -29,104 +30,79 @@ def run_simulation(desc: str, simulator: GameSimulator, iterations: int):
 
 
 def machineVSmachine():
+    num_iterations = 3
 
-
-    num_iterations = 1000
-
-    c4_simulations = [
-        # uncomment to play as human
-        #{
-        #    "name": "Connect4 - Human VS Random",
-        #    "player1": HumanConnect4Player("Human"),
-        #    "player2": RandomConnect4Player("Random")
-        #},
+    fanorona_simulations = [
         {
-            "name": "Connect4 - Random VS Random",
-            "player1": RandomConnect4Player("Random 1"),
-            "player2": RandomConnect4Player("Random 2")
+            "name": "Fanorona - Random VS Random",
+            "player1": RandomFanoronaPlayer("Random 1"),
+            "player2": RandomFanoronaPlayer("Random 2")
         },
         {
-            "name": "Connect4 - Greedy VS Random",
-            "player1": GreedyConnect4Player("Greedy"),
-            "player2": RandomConnect4Player("Random")
+            "name": "Fanorona - Greedy VS Random",
+            "player1": GreedyFanoronaPlayer("Greedy"),
+            "player2": RandomFanoronaPlayer("Random")
         },
         {
-            "name": "Minimax VS Random",
-            "player1": MinimaxConnect4Player("Minimax"),
-            "player2": RandomConnect4Player("Random")
+            "name": "Fanorona - Greedy VS Greedy",
+            "player1": GreedyFanoronaPlayer("Greedy 1"),
+            "player2": RandomFanoronaPlayer("Greedy 2")
         },
         {
-            "name": "Minimax VS Greedy",
-            "player1": MinimaxConnect4Player("Minimax"),
-            "player2": GreedyConnect4Player("Greedy")
+            "name": "Fanorona - Greedy VS Offensive Minimax",
+            "player1":  OffensiveMinimaxFanoronaPlayer("Offensive Minimax"),
+            "player2":  GreedyFanoronaPlayer("Greedy")
+        },
+        {
+            "name": "Fanorona - Greedy VS Defensive Minimax",
+            "player1": DefensiveMinimaxFanoronaPlayer("Defensive Minimax"),
+            "player2": GreedyFanoronaPlayer("Greedy")
+        },
+        {
+            "name": "Fanorona - Offensive Minimax VS Defensive Minimax",
+            "player1": DefensiveMinimaxFanoronaPlayer("Defensive Minimax"),
+            "player2": OffensiveMinimaxFanoronaPlayer("Offensive Minimax")
         }
     ]
 
-    poker_simulations = [
-        # uncomment to play as human
-        #{
-        #    "name": "Connect4 - Human VS Random",
-        #    "player1": HumanKuhnPokerPlayer("Human"),
-        #    "player2": RandomKuhnPokerPlayer("Random")
-        #},
-        {
-            "name": "Kuhn Poker - Random VS Random",
-            "player1": RandomKuhnPokerPlayer("Random 1"),
-            "player2": RandomKuhnPokerPlayer("Random 2")
-        },
-        {
-            "name": "Kuhn Poker - AlwaysBet VS Random",
-            "player1": AlwaysBetKuhnPokerPlayer("AlwaysBet"),
-            "player2": RandomKuhnPokerPlayer("Random")
-        },
-        {
-            "name": "Kuhn Poker - AlwaysPass VS Random",
-            "player1": AlwaysPassKuhnPokerPlayer("AlwaysPass"),
-            "player2": RandomKuhnPokerPlayer("Random")
-        },
-        {
-            "name": "Kuhn Poker - AlwaysBet VS AlwaysPass",
-            "player1": AlwaysBetKuhnPokerPlayer("AlwaysBet"),
-            "player2": AlwaysPassKuhnPokerPlayer("AlwaysPass")
-        },
-        {
-            "name": "Kuhn Poker - AlwaysBet VS AlwaysBetKing",
-            "player1": AlwaysBetKuhnPokerPlayer("AlwaysBet"),
-            "player2": AlwaysBetKingKuhnPokerPlayer("AlwaysBetKing")
-        },
-        {
-            "name": "Kuhn Poker - CFR VS Random",
-            "player1": CFRKuhnPokerPlayer("CFR"),
-            "player2": RandomKuhnPokerPlayer("Random")
-        },
-        {
-            "name": "Kuhn Poker - CFR VS AlwaysPass",
-            "player1": CFRKuhnPokerPlayer("CFR"),
-            "player2": AlwaysPassKuhnPokerPlayer("AlwaysPass")
-        },
-        {
-            "name": "Kuhn Poker - CFR VS AlwaysBet",
-            "player1": CFRKuhnPokerPlayer("CFR"),
-            "player2": AlwaysBetKuhnPokerPlayer("AlwaysBet")
-        },
-        {
-            "name": "Kuhn Poker - CFR VS AlwaysBetKing",
-            "player1": CFRKuhnPokerPlayer("CFR"),
-            "player2": AlwaysBetKingKuhnPokerPlayer("AlwaysBetKing")
-        }
-    ]
+    for sim in fanorona_simulations:
+        run_simulation(sim["name"], FanoronaSimulator(sim["player1"],sim["player2"]),num_iterations)
 
-    for sim in c4_simulations:
-        run_simulation(sim["name"], Connect4Simulator(sim["player1"], sim["player2"]), num_iterations)
-
-    for sim in poker_simulations:
-        run_simulation(sim["name"], KuhnPokerSimulator(sim["player1"], sim["player2"]), num_iterations)
 def humanVsMachine():
-    print("\tChoose your player")
+    print("\tChoose your player:")
     print("1 - Greedy")
     print("2 - Random")
     print("3 - Defensive Minimax")
-    print("4 - Ofensive Minimax")
+    print("4 - Offensive Minimax")
+    option = int(input("Choose your option:"))
+    if option == 1:
+        run_simulation("Fanorona - You vs Greedy",
+                       FanoronaSimulator(
+                           HumanFanoronaPlayer("Human"),
+                           GreedyFanoronaPlayer("Greedy")
+                       ),
+                       1)
+    elif option == 2:
+        run_simulation("Fanorona - You vs Random",
+                       FanoronaSimulator(
+                           HumanFanoronaPlayer("Human"),
+                           RandomFanoronaPlayer("Random")
+                       ),
+                       1)
+    elif option == 3:
+        run_simulation("Fanorona - You vs Minimax",
+                       FanoronaSimulator(
+                           HumanFanoronaPlayer("Human"),
+                           DefensiveMinimaxFanoronaPlayer("Minimax")
+                       ),
+                       1)
+    elif option == 4:
+        run_simulation("Fanorona - You vs Minimax",
+                       FanoronaSimulator(
+                           HumanFanoronaPlayer("Human"),
+                           OffensiveMinimaxFanoronaPlayer("Minimax")
+                       ),
+                       1)
 
 def main():
     num_iterations = 2
@@ -140,12 +116,12 @@ def main():
     if option == 1:
         machineVSmachine()
     elif option == 2:
-        print()
+        humanVsMachine()
     elif option == 3:
         run_simulation("Fanorona",
                        FanoronaSimulator(
-                           RandomFanoronaPlayer("2"),
-                           OffensiveMinimaxFanoronaPlayer("1")
+                           HumanFanoronaPlayer("Player 1"),
+                           HumanFanoronaPlayer("Player 2")
                        ),
                        num_iterations)
 
@@ -172,6 +148,8 @@ def df_heuristic(pl, state: FanoronaState):
 
 
 if __name__ == "__main__":
+    main()
+    """
     greedy = GreedyFanoronaPlayer("2")
     run_simulation("Fanorona",
                    FanoronaSimulator(
@@ -179,4 +157,5 @@ if __name__ == "__main__":
                        OffensiveMinimaxFanoronaPlayer("1")
                    ),
                    1)
+                   """
 #TODO : HEURISTIC OFFENSIVE
