@@ -38,7 +38,7 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
         opposite =  0 if player == 1 else 1
         mobility = self.get_my_mobility(state) / 45
         percent_pieces = state.count_cards(player) / (state.count_cards(player) + state.count_cards(opposite))
-        heuristic =  (0.9 * percent_pieces) + (0.1 * mobility)
+        heuristic =  percent_pieces
         #print(heuristic)
         return heuristic
 
@@ -96,7 +96,7 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_action(self, state: FanoronaState):
         #state.display()
-        return self.minimax(state, 4)
+        return self.minimax(state, 3)
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore
