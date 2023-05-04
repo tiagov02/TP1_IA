@@ -1,4 +1,5 @@
 import math
+import random
 
 from games.fanorona.action import FanoronaAction
 from games.fanorona.player import FanoronaPlayer
@@ -11,6 +12,7 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
 
     def __init__(self, name, heuristic = None):
         super().__init__(name)
+        self.__heuristic = heuristic
 
     def get_possible_actions(self, state: FanoronaState):
         possible_actions = []
@@ -30,12 +32,6 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
     def get_my_mobility(self, state: FanoronaState):
         return len(self.get_possible_actions(state))
 
-    #TODO:
-    def __heuristic(self, state: FanoronaState):
-        player = self.get_current_pos()
-        opponent = 0 if player == 1 else 1
-        return state.count_cards(opponent)
-
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
     search should be made :param depth: maximum depth of the search :param alpha: to optimize the search :param beta: 
     to optimize the search :param is_initial_node: if true, the function will return the action with max ev, 
@@ -46,13 +42,13 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
         # first we check if we are in a terminal node (victory, draw or loose)
         if state.is_finished():
             return {
-                FanoronaResult.WIN: 0,
-                FanoronaResult.LOOSE: 22 # heuristic between [0,1] not included
+                FanoronaResult.WIN: 1,
+                FanoronaResult.LOOSE: 0 # heuristic between [0,1] not included
             }[state.get_result(self.get_current_pos())]
 
         # if we reached the maximum depth, we will return the value of the heuristic
         if depth == 0:
-            return self.__heuristic(state)
+            return self.__heuristic(self, state)
 
         # if we are the acting player --maximize the win
         if self.get_current_pos() == state.get_acting_player():
@@ -67,9 +63,11 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
                             self.minimax(state.sim_play(FanoronaAction(initial_x,initial_y,final_x,final_y)), depth - 1, alpha, beta, False))
                 if value > pre_value:
                     selected_action = FanoronaAction(initial_x,initial_y, final_x, final_y)
+                if value == pre_value and random.choice([0,1]) == 0:
+                    selected_action = FanoronaAction(initial_x,initial_y, final_x, final_y)
                 if value > beta:
                     break
-                alpha = min(alpha, value)
+                alpha = max(alpha, value)
 
             return selected_action if is_initial_node else value
 
@@ -81,7 +79,7 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
                 value = min(value, self.minimax(state.sim_play(FanoronaAction(initial_x,initial_y,final_x,final_y)), depth - 1, alpha, beta, False))
                 if value < alpha:
                     break
-                beta = max(beta, value)
+                beta = min(beta, value)
             return value
 
     def get_action(self, state: FanoronaState):

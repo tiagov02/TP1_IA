@@ -143,11 +143,33 @@ def main():
                        ),
                        num_iterations)
 
+def of_heuristic(pl, state: FanoronaState):
+    player = pl.get_current_pos()
+    opponent = 0 if player == 1 else 1
+    heuristic = 1 - state.count_cards(opponent) / 45
+    return heuristic
+
+def get_my_mobility(pl, state: FanoronaState):
+    return len(pl.get_possible_actions(state))
+
+#TODO:
+def df_heuristic(pl, state: FanoronaState):
+    player = pl.get_current_pos()
+    opponent = 0 if player == 1 else 1
+    """Because 45 is the maximum of blank spaces"""
+    mobility = get_my_mobility(pl, state) / 45
+    my_percent_occupation = state.count_cards(player) / 45
+    opp_percent_occupation = state.count_cards(opponent) / 45
+    heuristic = (0.7 * my_percent_occupation) + (0.3 * mobility)
+    print(heuristic)
+    return heuristic
+
 
 if __name__ == "__main__":
     run_simulation("Fanorona",
                    FanoronaSimulator(
-                       OffensiveMinimaxFanoronaPlayer("2"),
-                       GreedyFanoronaPlayer("1")
+                       OffensiveMinimaxFanoronaPlayer("1",of_heuristic),
+                       OffensiveMinimaxFanoronaPlayer("2",df_heuristic),
                    ),
-                   3)
+                   1)
+#TODO : HEURISTIC OFFENSIVE
