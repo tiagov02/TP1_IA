@@ -493,6 +493,9 @@ class FanoronaState(State):
 
         self.__turns_count += 1
 
+    def get_turns(self):
+        return self.__turns_count
+
     def get_player_positions(self):
         my_pos = []
         for row in range(0, self.get_num_rows()):
