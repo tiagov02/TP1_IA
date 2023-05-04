@@ -168,8 +168,8 @@ def df_heuristic(pl, state: FanoronaState):
 if __name__ == "__main__":
     run_simulation("Fanorona",
                    FanoronaSimulator(
-                       OffensiveMinimaxFanoronaPlayer("1",of_heuristic),
-                       OffensiveMinimaxFanoronaPlayer("2",df_heuristic),
+                       OffensiveMinimaxFanoronaPlayer("1"),
+                       RandomFanoronaPlayer("2")
                    ),
-                   1)
+                   3)
 #TODO : HEURISTIC OFFENSIVE

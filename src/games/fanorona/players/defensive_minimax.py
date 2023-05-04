@@ -37,7 +37,6 @@ class DefensiveMinimaxFanoronaPlayer(FanoronaPlayer):
         """Because 45 is the maximum of blank spaces"""
         mobility = self.get_my_mobility(state) / 45
         my_percent_occupation = state.count_cards(player) / 45
-        opp_percent_occupation = state.count_cards(opponent) / 45
         heuristic = (0.7 * my_percent_occupation) + (0.3 * mobility)
         print(heuristic)
         return heuristic
