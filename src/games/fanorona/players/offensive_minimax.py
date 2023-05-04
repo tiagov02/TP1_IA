@@ -35,8 +35,8 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
     def __heuristic(self, state: FanoronaState):
         player = self.get_current_pos()
         opponent = 0 if player == 1 else 1
-        heuristic = state.count_cards(opponent) / state.count_cards(player)
-        print(state.count_cards(player))
+        heuristic = state.count_cards(player) / (state.count_cards(opponent) + state.count_cards(player))
+        print(heuristic)
         return heuristic
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 

@@ -121,6 +121,12 @@ def machineVSmachine():
 
     for sim in poker_simulations:
         run_simulation(sim["name"], KuhnPokerSimulator(sim["player1"], sim["player2"]), num_iterations)
+def humanVsMachine():
+    print("\tChoose your player")
+    print("1 - Greedy")
+    print("2 - Random")
+    print("3 - Defensive Minimax")
+    print("4 - Ofensive Minimax")
 
 def main():
     num_iterations = 2
@@ -166,10 +172,11 @@ def df_heuristic(pl, state: FanoronaState):
 
 
 if __name__ == "__main__":
+    greedy = GreedyFanoronaPlayer("2")
     run_simulation("Fanorona",
                    FanoronaSimulator(
-                       OffensiveMinimaxFanoronaPlayer("1"),
-                       RandomFanoronaPlayer("2")
+                       greedy,
+                       OffensiveMinimaxFanoronaPlayer("1")
                    ),
-                   3)
+                   1)
 #TODO : HEURISTIC OFFENSIVE
