@@ -50,17 +50,23 @@ def machineVSmachine():
         },
         {
             "name": "Fanorona - Greedy VS Offensive Minimax",
-            "player1":  GreedyFanoronaPlayer("Greedy"),
-            "player2":  OffensiveMinimaxFanoronaPlayer("Offensive Minimax")
+            "player1":  OffensiveMinimaxFanoronaPlayer("Offensive Minimax"),
+            "player2":  GreedyFanoronaPlayer("Greedy")
         },
         {
             "name": "Fanorona - Greedy VS Defensive Minimax",
             "player1": DefensiveMinimaxFanoronaPlayer("Defensive Minimax"),
             "player2": GreedyFanoronaPlayer("Greedy")
         },
+
         {
-            "name": "Fanorona - Offensive Minimax VS Defensive Minimax",
-            "player1": DefensiveMinimaxFanoronaPlayer("Defensive Minimax"),
+            "name": "Fanorona - Random VS Offensive Minimax",
+            "player1": RandomFanoronaPlayer("Random"),
+            "player2": DefensiveMinimaxFanoronaPlayer("Offensive Minimax")
+        },
+        {
+            "name": "Fanorona - Random VS Defensive Minimax",
+            "player1": RandomFanoronaPlayer("Random"),
             "player2": OffensiveMinimaxFanoronaPlayer("Offensive Minimax")
         }
     ]

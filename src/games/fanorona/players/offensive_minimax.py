@@ -51,8 +51,8 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
         # first we check if we are in a terminal node (victory, draw or loose)
         if state.is_finished():
             return {
-                FanoronaResult.WIN: 45,
-                FanoronaResult.LOOSE: 23 # heuristic between [0,1] not included
+                FanoronaResult.WIN: 1,
+                FanoronaResult.LOOSE: 0 # heuristic between [0,1] not included
             }[state.get_result(self.get_current_pos())]
 
         # if we reached the maximum depth, we will return the value of the heuristic
@@ -93,7 +93,7 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_action(self, state: FanoronaState):
         #state.display()
-        return self.minimax(state, 3)
+        return self.minimax(state, 4)
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore
