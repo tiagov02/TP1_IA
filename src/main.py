@@ -30,7 +30,7 @@ def run_simulation(desc: str, simulator: GameSimulator, iterations: int):
 
 
 def machineVSmachine():
-    num_iterations = 3
+    num_iterations = 5
 
     fanorona_simulations = [
         {
@@ -50,8 +50,8 @@ def machineVSmachine():
         },
         {
             "name": "Fanorona - Greedy VS Offensive Minimax",
-            "player1":  OffensiveMinimaxFanoronaPlayer("Offensive Minimax"),
-            "player2":  GreedyFanoronaPlayer("Greedy")
+            "player1":  GreedyFanoronaPlayer("Greedy"),
+            "player2":  OffensiveMinimaxFanoronaPlayer("Offensive Minimax")
         },
         {
             "name": "Fanorona - Greedy VS Defensive Minimax",

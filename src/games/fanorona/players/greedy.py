@@ -51,7 +51,7 @@ class GreedyFanoronaPlayer(FanoronaPlayer):
                     if temp_state.count_cards(opponent) < no_cards:
                         no_cards = temp_state.get_opposite_cards()
                         selected_action = FanoronaAction(initial_x,initial_y,final_x,final_y)
-        #todo: same thing but with choose initial piece
+
         else:
             for init_pos in self.get_my_positions(state):
                 initial_x, initial_y = init_pos
