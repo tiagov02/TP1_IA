@@ -111,7 +111,7 @@ def humanVsMachine():
                        1)
 
 def main():
-    num_iterations = 2
+    num_iterations = 5
     print("ESTG IA Games Simulator")
     print("\t Choose your option")
     print("1 - machine vs machine")
