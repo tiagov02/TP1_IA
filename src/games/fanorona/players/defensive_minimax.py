@@ -97,7 +97,7 @@ class DefensiveMinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_action(self, state: FanoronaState):
         #state.display()
-        return self.minimax(state, 3)
+        return self.minimax(state, 4)
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore
