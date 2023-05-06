@@ -12,6 +12,7 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
 
     def __init__(self, name):
         super().__init__(name)
+        self.initial_pieces = 0
 
 
     def get_possible_actions(self, state: FanoronaState,player):
@@ -31,12 +32,19 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_my_mobility(self, state: FanoronaState):
         return len(self.get_possible_actions(state,self.get_current_pos()))
-
+    """
     def __heuristic(self, state: FanoronaState):
         player = self.get_current_pos()
         opposite =  0 if player == 1 else 1
         opp_pieces = state.count_cards(opposite) / (state.count_cards(player) + state.count_cards(opposite))
         heuristic = 1 - opp_pieces
+        return heuristic
+    """
+    def __heuristic(self, state: FanoronaState):
+        player = self.get_current_pos()
+        opposite =  0 if player == 1 else 1
+        eaten_pieces = self.initial_pieces - state.count_cards(opposite)
+        heuristic = eaten_pieces / 22
         return heuristic
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
@@ -93,7 +101,10 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
 
     def get_action(self, state: FanoronaState):
         #state.display()
-        return self.minimax(state, 4)
+        player = self.get_current_pos()
+        opp = 0 if player == 1 else 1
+        self.initial_pieces = state.count_cards(opp)
+        return self.minimax(state, 3)
 
     def event_action(self, pos: int, action, new_state: State):
         # ignore
