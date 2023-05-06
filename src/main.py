@@ -80,7 +80,7 @@ def humanVsMachine():
     print("2 - Random")
     print("3 - Defensive Minimax")
     print("4 - Offensive Minimax")
-    option = int(input("Choose your option:"))
+    option = int(input("Choose your option: "))
     if option == 1:
         run_simulation("Fanorona - You vs Greedy",
                        FanoronaSimulator(
