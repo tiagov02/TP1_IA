@@ -131,16 +131,16 @@ def main():
                        ),
                        num_iterations)
 
+
+def get_my_mobility(pl, state: FanoronaState):
+    return len(pl.get_possible_actions(state))
+
 def of_heuristic(pl, state: FanoronaState):
     player = pl.get_current_pos()
     opponent = 0 if player == 1 else 1
     heuristic = 1 - state.count_cards(opponent) / 45
     return heuristic
 
-def get_my_mobility(pl, state: FanoronaState):
-    return len(pl.get_possible_actions(state))
-
-#TODO:
 def df_heuristic(pl, state: FanoronaState):
     player = pl.get_current_pos()
     opponent = 0 if player == 1 else 1
@@ -164,4 +164,3 @@ if __name__ == "__main__":
                    ),
                    1)
                    """
-#TODO : HEURISTIC OFFENSIVE
