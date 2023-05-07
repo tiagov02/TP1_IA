@@ -62,7 +62,7 @@ def machineVSmachine():
         {
             "name": "Fanorona - Random VS Offensive Minimax",
             "player1": RandomFanoronaPlayer("Random"),
-            "player2": DefensiveMinimaxFanoronaPlayer("Offensive Minimax")
+            "player2": DefensiveMinimaxFanoronaPlayer("Defensive Minimax")
         },
         {
             "name": "Fanorona - Random VS Defensive Minimax",
