@@ -49,7 +49,7 @@ class GreedyFanoronaPlayer(FanoronaPlayer):
                     temp_state = state.clone()
                     temp_state.update(FanoronaAction(initial_x,initial_y,final_x,final_y))
                     if temp_state.count_cards(opponent) < no_cards:
-                        no_cards = temp_state.get_opposite_cards()
+                        no_cards = temp_state.count_cards(opponent)
                         selected_action = FanoronaAction(initial_x,initial_y,final_x,final_y)
 
         else:
