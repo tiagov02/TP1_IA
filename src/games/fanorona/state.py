@@ -86,12 +86,9 @@ class FanoronaState(State):
         if self.__acting_player == 1 and self.__last_move_p1 is not None:
             if self.__last_move_p1 != move:
                 return False
-
-        '''
-        if self.last_piece_pos is not None and self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
-            print()
-            return False
-        '''
+        if self.last_piece_pos is not None:
+            if self.last_piece_pos != [action.get_final_x(), action.get_final_y()]:
+                return False
         return True
 
     def get_last_piece_pos_actual(self):
