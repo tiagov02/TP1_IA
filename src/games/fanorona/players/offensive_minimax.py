@@ -44,7 +44,7 @@ class OffensiveMinimaxFanoronaPlayer(FanoronaPlayer):
         player = self.get_current_pos()
         opposite =  0 if player == 1 else 1
         eaten_pieces = self.initial_pieces - state.count_cards(opposite)
-        heuristic = eaten_pieces / 22
+        heuristic = eaten_pieces / self.initial_pieces
         return heuristic
 
     """Implementation of minimax search (recursive, with alpha/beta pruning) :param state: the state for which the 
